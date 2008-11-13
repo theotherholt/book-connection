@@ -1,0 +1,65 @@
+<% content_for(:header) do %>
+  <h2>Login</h2>
+<% end %>
+
+<div id="password-notice" style="display: none">
+  <div>
+    Don't sweat it, just enter your username and we'll send your new password right along.
+  </div>
+</div>
+
+<% form_for(:user, :url => session_path) do |form| %>
+  <table class="striped" style="margin-bottom: 0">
+    <tbody>
+      <tr class="odd">
+        <th><%= label(:user, :username) %></th>
+        <td><%= form.text_field(:username, { :tabindex => 1 }) %> <em>@(alumni.)calvin.edu</em></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div id="password">
+    <table class="striped">
+      <tfoot>
+        <tr>
+          <th></th>
+          <td>
+            <%= form.submit('Login &raquo;', { :id => 'user_submit_login' }) %>
+            or <%= link_to('register', new_account_path) %> for Book Connection.
+          </td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr class="even last">
+          <th><%= label(:user, :password) %></th>
+          <td>
+            <%= form.password_field(:password, { :tabindex => 1 }) %>
+            <%= link_to_function('Forgot your password?', 'forgot_password()') %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div id="forgot-password" style="display: none">
+    <table class="striped">
+      <tfoot>
+        <tr>
+          <th></th>
+          <td>
+            <%= form.submit('Send Me My Password', { :id => 'user_submit_forgot_password' }) %>
+            unless...oh wait, <%= link_to_function('I remember now.', 'remember_password()') %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+//<![CDATA[
+  Event.observe(window, 'load', function() {
+    Form.Element.focus('user_username')
+  });
+//]]>
+</script>

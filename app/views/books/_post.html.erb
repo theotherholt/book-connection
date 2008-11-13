@@ -1,0 +1,10 @@
+<% if post_counter.zero? %>
+  <tr class="first">
+<% else %>
+  <tr class="<%= cycle('even', 'odd') %>">
+<% end %>
+  <td style="width: 60px; text-align: center;"><%= h(post.try(:price_with_formatting)) %></td>
+  <td style="width: 194px;"><%= h(post.user) %></td>
+  <td style="width: 100px; text-align: center;"><%= h(post.try(:condition_with_formatting)) %></td>
+  <td style="width: 110px;" class="buy"><%= link_to('Buy This Book', confirm_post_path(post)) %></td>
+</tr>

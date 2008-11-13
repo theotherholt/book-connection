@@ -1,0 +1,62 @@
+<% content_for(:header) do %>
+  <h2>Edit Your Book</h2>
+<% end %>
+
+<% error_messages_for(:post) %>
+
+<% form_for(@post) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td>
+          <%= form.submit('Update &raquo;') %>&nbsp;
+          <%= link_to('Cancel', posts_path) %>
+        </td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr class="odd">
+        <th>ISBN</th>
+        <td><%= @post.book.try(:isbn_with_formatting) %></td>
+      </tr>
+      <tr class="even">
+        <th>Title</th>
+        <td><%= @post.book.title %></td>
+      </tr>
+      <tr class="odd">
+        <th><%= @post.book.author_label_text %></th>
+        <td><%= @post.book.try(:authors_with_formatting) %></td>
+      </tr>
+      <tr class="even">
+        <th>
+          <%= label(:post, :edition) %>
+          <span>(optional)</span>
+        </th>
+        <td>
+          <%= form.text_field(:edition) %>
+          <%= error_message_on(:post, :edition, 'Edition ', '.') %>
+        </td>
+      </tr>
+      <tr class="odd">
+        <th><%= label(:post, :condition_id) %></th>
+        <td><%= form.select(:condition_id, Constants::CONDITION) %></td>
+      </tr>
+      <tr class="even">
+        <th><%= label(:post, :price) %></th>
+        <td>
+          <%= form.text_field(:price) %>
+          <%= error_message_on(:post, :price, 'Price ', '.') %>
+          <%= render(:partial => 'price_help') %>
+        </td>
+      </tr>
+      <tr class="odd last">
+        <th>Status</th>
+        <td>
+          <%= form.radio_button(:state, 'for_sale') %> <%= label(:post, :state_for_sale, 'For Sale') %>
+          <%= form.radio_button(:state, 'unavailable') %> <%= label(:post, :state_unavailable, 'Unavailable') %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

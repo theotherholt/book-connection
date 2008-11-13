@@ -1,0 +1,17 @@
+<% unless book.posts.for_sale.empty? %>
+  <div class="book-wrapper-<%= cycle('odd', 'even') %>">
+    <div class="book clearfix">
+      <%= link_to(image_tag(book.photo.url, :width => '50'), book_path(book)) %>
+      <div style="margin-left: 15px; width: 390px; float: left;">
+        <h3><%= link_to(h(book.try(:title_with_formatting)), book_path(book)) %></h3>
+        <h4><%= h(book.try(:isbn_with_formatting)) %></h4>
+        <h4><%= h(book.try(:authors_with_formatting)) %></h4>
+      </div>
+      <div style="margin-left: 15px; width: 170px; float: left;">
+        <ul>
+          <li class="select"><%= link_to('Select this Book', book_path(book)) %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+<% if flash[:warning] || flash[:errors] %>
+  <div id="flash-warning">
+    <div>
+      <% flash.each do |key, message| %>
+        <%= simple_format(message) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% if flash[:notice] %>
+  <div id="flash-notice">
+    <div>
+      <% flash.each do |key, message| %>
+        <%= simple_format(message) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

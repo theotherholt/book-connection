@@ -1,0 +1,71 @@
+<% content_for(:header) do %>
+  <h2>Edit Your Posted Book</h2>
+<% end %>
+
+<p>
+  We couldn't find a book with the ISBN you gave us, even though you gave us a valid ISBN. We're
+  betting you tried to post a book written by a Calvin professor that isn't in our records. You'll
+  have to fill out the information on your own.
+</p>
+
+<% error_messages_for(:book, :post) %>
+
+<% form_for(:post, :url => posts_path) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td><%= form.submit('Post &raquo;') %></td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <% fields_for(:book) do |book| %>
+        <tr class="odd">
+          <th>ISBN</th>
+          <td>
+            <%= hidden_field_tag(:user_created_book, true) %>
+            <%= book.hidden_field(:isbn) %>
+            <%= @book.try(:isbn_with_formatting) %>
+          </td>
+        </tr>
+        <tr class="even">
+          <th><%= label(:book, :title) %></th>
+          <td>
+            <%= book.text_field(:title) %>
+            <%= error_message_on(:book, :title, 'Title ', '.') %>
+          </td>
+        </tr>
+      <% end %>
+      <tr class="odd">
+        <th>Author(s)</th>
+        <td>
+          <div id="authors">
+            <%= render(:partial => 'author_field', :collection => authors) %>
+          </div>
+          <%= add_author_link %>
+        </td>
+      </tr>
+      <tr class="even">
+        <th>
+          <%= label(:post, :edition) %>
+          <span>(optional)</span>
+        </th>
+        <td>
+          <%= form.text_field(:edition) %>
+          <%= error_message_on(:post, :edition, 'Edition ', '.') %>
+        </td>
+      </tr>
+      <tr class="odd">
+        <th><%= label(:post, :condition_id) %></th>
+        <td><%= form.select(:condition_id, Constants::CONDITION) %></td>
+      </tr>
+      <tr class="even last">
+        <th><%= label(:post, :price) %></th>
+        <td>
+          <%= form.text_field(:price) %>
+          <%= error_message_on(:post, :price, 'Price ', '.') %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

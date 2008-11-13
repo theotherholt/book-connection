@@ -1,0 +1,17 @@
+ryan_holt_velvet_elvis:
+  user: ryan_holt
+  book: velvet_elvis
+  condition_id: 1
+  price: 10.99
+
+ryan_holt_blue_like_jazz:
+  user: ryan_holt
+  book: blue_like_jazz
+  condition_id: 2
+  price: 8.99
+
+ryan_holt_sex_god:
+  user: ryan_holt
+  book: sex_god
+  condition_id: 1
+  price: 8.99

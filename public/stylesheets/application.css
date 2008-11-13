@@ -1,0 +1,358 @@
+/* -----| Body & Main |----------------------------------------------------- */
+body {
+  padding: 30px;
+  background: #000 url('../images/body-bg.gif') repeat-x top left;
+}
+
+div#site-wrapper {
+  margin: 0 auto;
+  width: 700px;
+}
+
+/* -----| Navigation |------------------------------------------------------ */
+div#navigation {
+  background: transparent url('../images/navigation-bg.png') repeat-x bottom left;
+  position: relative;
+}
+
+div#navigation > h1 {
+  margin: 0 0 10px 10px;
+  color: #fff;
+  font-size: 310%;
+}
+
+div#navigation > h1 > a {
+  color: #fff;
+  text-decoration: none;
+}
+
+div#navigation > h1 > a > img {
+  padding-right: 5px;
+  width: 50px;
+  vertical-align: bottom;
+}
+
+div#navigation > ul {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+div#navigation > ul > li {
+  float: left;
+}
+
+div#navigation > ul > li > a {
+  margin-right: 10px;
+  padding: 10px 15px;
+  background-color: #7f0115;
+  color: #fff;
+  font-size: 131%;
+  text-decoration: none;
+  display: block;
+  
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+  
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+}
+
+div#navigation > ul > li.active > a {
+  background-color: #bb021f;
+}
+
+/* -----| Header |---------------------------------------------------------- */
+div#header {
+  padding: 10px 0;
+  background-color: #bb021f;
+}
+
+div#header > div {
+  margin: 0 20px;
+  position: relative;
+}
+
+div#header > div > h2 {
+  color: #fff;
+  font-size: 197%;
+}
+
+div#header > div > div#account {
+  color: #fff;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+div#header > div > div#account a {
+  color: #fff;
+}
+
+/* -----| Body |------------------------------------------------------------ */
+div#body {
+  padding-top: 20px;
+  background-color: #fff;
+}
+
+div#body > div {
+  margin: 0 20px;
+}
+
+div#body > div > h3 {
+  margin-bottom: 20px;
+  font-size: 161.6%;
+}
+
+div#body > div > p {
+  margin-bottom: 20px;
+  line-height: 150%;
+}
+
+div#body h4 {
+  margin-bottom: 5px;
+  color: #444;
+}
+
+div#body a {
+  text-decoration: none;
+}
+
+/* -----| Tables |---------------------------------------------------------- */
+table {
+  margin-bottom: 20px;
+  width: 660px;
+  border-collapse: collapse;
+}
+
+table tr th,
+table tr td {
+  padding: 8px;
+}
+
+table.striped thead tr th {
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+}
+
+table.striped tbody tr th,
+table.striped tfoot tr th {
+  padding-top: 12px;
+  width: 100px;
+  font-weight: bold;
+  text-align: right;
+  vertical-align: top;
+}
+
+table.striped tr td.buy {
+  padding-left: 25px;
+  background: transparent url('../images/buy.png') no-repeat 5px 50%;
+}
+
+table.striped tr th span {
+  color: #555;
+  font-size: 0.8em;
+  font-weight: normal;
+  display: block;
+}
+
+table.striped tr th em,
+table.striped tr td em {
+  color: #555;
+}
+
+table.striped tr.odd th,
+table.striped tr.odd td {
+  background-color: #ececec;
+  border-bottom: 1px solid #ddd;
+}
+
+table.striped tr.even th,
+table.striped tr.even td {
+  border-bottom: 1px solid #ddd;
+}
+
+table.striped tr.first th,
+table.striped tr.first td {
+  background-color: #ffff80;
+  border-bottom: 1px solid #fc3;
+}
+
+table.striped tr.last th,
+table.striped tr.last td {
+  border-bottom: 1px solid #fc3;
+}
+
+table.striped tfoot tr th,
+table.striped tfoot tr td {
+  border-top: 1px solid #fc3;
+  background-color: #ffff80;
+  border-bottom: none;
+}
+
+/* -----| Grey Box |-------------------------------------------------------- */
+div.box-wrapper {
+  margin-bottom: 20px;
+  padding: 10px 0;
+  background-color: #ececec;
+  border: 1px solid #ddd;
+  
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-bottomright: 10px;
+  
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+
+div.box-wrapper > div {
+  margin: 0 10px;
+}
+
+/* -----| Book Box |-------------------------------------------------------- */
+div.book-wrapper-odd,
+div.book-wrapper-even {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+div.book-wrapper-odd {
+  background-color: #ececec;
+}
+
+div.book-wrapper-even {
+  background-color: #fff;
+}
+
+div.book {
+  margin: 0 10px;
+}
+
+div.book img {
+  float: left;
+}
+
+div.book div h3 {
+  margin-bottom: 5px;
+  font-size: 161.6%;
+}
+
+div.book div h4 {
+  margin-bottom: 5px;
+  color: #444;
+}
+
+div.book ul {
+  width: 160px;
+}
+
+div.book ul li {
+  padding: 10px 10px 10px 25px;
+  border-bottom:1px solid #ccc;
+}
+
+div.book ul li.edit {
+  background: transparent url('../images/edit.png') no-repeat scroll 5px 50%;
+}
+
+div.book ul li.relist {
+  background: transparent url('../images/edit.png') no-repeat scroll 5px 50%;
+}
+
+div.book ul li.remove {
+  background: transparent url('../images/remove.png') no-repeat scroll 5px 50%;
+}
+
+div.book ul li.select {
+  background: transparent url('../images/select.png') no-repeat scroll 5px 50%;
+}
+
+/* -----| Rails Form Errors |------------------------------------- */
+div#errorExplanation {
+  margin-bottom: 10px;
+  padding: 5px 5px 5px 25px;
+  background: #ffff80 url('../images/warning.png') no-repeat 5px 50%;
+  border: 1px solid #fc3;
+}
+
+div.fieldWithErrors {
+  display: inline;
+}
+
+div.formError {
+  margin-top: 5px;
+  padding-left: 28px;
+  background: transparent url('../images/warning.png') no-repeat 5px 50%;
+  vertical-align: top;
+}
+
+/* -----| Pretty Form Controls |---------------------------------- */
+input.text, input.password, textarea, select {
+  border-top: 1px solid #7c7c7c;
+  border-right: 1px solid #c3c3c3;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #c3c3c3;
+}
+
+input.text, input.password, textarea {
+  padding: 2px;
+}
+
+/* -----| Flash |----------------------------------------------------------- */
+div#flash-warning,
+div#flash-notice {
+  padding: 10px 0;
+  text-align: center;
+}
+
+div#flash-warning {
+  background-color: #ffff80;
+  border-bottom: 1px solid #fc3;
+}
+
+div#flash-notice {
+  background: #B3FFBC;
+  border-bottom: 1px solid #618B68;
+}
+
+div#flash-warning > div,
+div#flash-notice > div {
+  margin: 0 10px;
+}
+
+/* -----| Footer |---------------------------------------------------------- */
+div#footer {
+  padding: 10px 0;
+  background-color: #444;
+  color: #fff;
+  font-size: 93%;
+  text-align: center;
+  
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-bottomright: 10px;
+  
+  -webkit-border-bottom-left-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+
+div#footer > div {
+  margin: 0 20px;
+}
+
+div#footer > div > a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* -----| Misc |------------------------------------------------------------ */
+div#password-notice {
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+div#password-notice div {
+  margin: 0 10px;
+}

@@ -1,0 +1,33 @@
+<div class="book-wrapper-<%= cycle('odd', 'even') %>">
+  <div class="book clearfix">
+    <%= image_tag(post.book.photo.url, :width => '50') %>
+    <div style="margin-left: 15px; width: 390px; float: left;">
+      <h3><%= h(post.book.try(:title_with_formatting)) %></h3>
+      <h4><%= h(post.book.try(:isbn_with_formatting)) %></h4>
+      <h4><%= h(post.book.try(:authors_with_formatting)) %></h4>
+      <h4><%= h(post.try(:price_with_formatting)) %></h4>
+    </div>
+    <div style="margin-left: 15px; width: 170px; float: left;">
+      <% if !post.sold? %>
+      <ul>
+        <li class="edit"><%= link_to('Edit This Book', edit_post_path(post)) %></li>
+        <li class="remove">
+          <%= link_to('Remove This Book', destroy_post_path(post), {
+              :confirm => "Are you sure you want to remove \"#{post.book.try(:title)}\"?",
+              :method  => :delete
+          }) %>
+        </li>
+      </ul>
+      <% elsif post.sold? %>
+      <ul>
+        <li class="relist">
+          <%= link_to('Mark As Not Sold', relist_post_path(post), {
+            :confirm => "This will re-list \"#{post.book.try(:title)}\". Are you sure you want to do this?",
+            :method => :post
+          }) %>
+        </li>
+      </ul>
+      <% end %>
+    </div>
+  </div>
+</div>

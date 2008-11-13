@@ -1,0 +1,2 @@
+module BooksHelper # :nodoc:
+end

@@ -1,0 +1,22 @@
+<% content_for(:header) do %>
+  <h2>Your Posted Books</h2>
+<% end %>
+
+<p>
+  You can keep on top of your book sales from here. Books will be posted for an entire semester;
+  if they have not been sold by then, they will be marked unavailable and you can re-post the book.
+  We'll send you an email if someone wants to buy your book. This will also remove your book from
+  the listings. It's up to you and the buyer to contact each other and make arrangements for the
+  sale. Good luck!
+</p>
+
+<% if @posts.empty? %>
+  <div style="margin-bottom: 20px; padding: 10px 0; background-color: #ffff80; border: 1px solid #fc3;">
+    <div style="margin: 0 10px;">
+      It looks like you don't have any books listed right now. Why not contribute to the Calvin
+      community and <%= link_to('sell one', new_post_path) %>?
+    </div>
+  </div>
+<% else %>
+  <%= render(:partial => 'post', :collection => @posts) %>
+<% end %>

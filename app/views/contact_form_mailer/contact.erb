@@ -1,0 +1,6 @@
+Someone just submitted a message via the Book Connection contact form:
+
+  Name:    <%= h(@contact.name_with_formatting) %>
+  Email:   <%= h(@contact.email_with_formatting) %>
+  Subject: <%= h(@contact.subject_with_formatting) %>
+  Message: <%= h(@contact.message) %>

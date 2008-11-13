@@ -1,0 +1,7 @@
+Hi <%= h(@user.first_name) %>,
+
+Welcome to the Book Connection. Your account has been created
+and all that's left to do is activate it. Visit this url to
+activate your account:
+
+  <%= 'http://gawaine.csx.calvin.edu' + activate_path(:id => @user.id, :activation => @user.activation_code) %>

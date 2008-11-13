@@ -1,0 +1,81 @@
+<% content_for(:header) do %>
+  <h2>Your Account</h2>
+<% end %>
+
+<% error_messages_for(:user) %>
+
+<h3>Update Your Contact Info</h3>
+
+<% form_for(:user, :url => account_path, :html => { :method => :put }) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td><%= form.submit('Update Contact Info &raquo;', { :id => 'contact_info_submit'}) %></td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr class="odd">
+        <th><%= label(:user, :first_name) %></th>
+        <td>
+          <%= form.text_field(:first_name) %>
+          <%= error_message_on(:user, :first_name, 'First name ', '.') %>
+        </td>
+      </tr>
+      <tr class="even">
+        <th><%= label(:user, :last_name) %></th>
+        <td>
+          <%= form.text_field(:last_name) %>
+          <%= error_message_on(:user, :last_name, 'Last name ', '.') %>
+        </td>
+      </tr>
+      <tr class="odd">
+        <th><%= label(:user, :alumni, 'Email') %></th>
+        <td>
+          <%= @user.username %>
+          <%= form.hidden_field(:username) %>
+          <%= form.select(:alumni, [['@calvin.edu', 0 ], [ '@alumni.calvin.edu', 1 ]]) %>
+        </td>
+      </tr>
+      <tr class="even last">
+        <th>
+          <%= label(:user, :phone) %>
+          <span>(optional)</span>
+        </th>
+        <td>
+          <%= form.text_field(:phone) %>
+          <%= error_message_on(:user, :phone, 'Phone number ', '.') %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<h3>Change Your Password</h3>
+
+<% form_for(:user, :url => account_path, :html => { :method => :put }) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td><%= form.submit('Change Password &raquo;', { :id => 'password_submit' }) %></td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr class="odd">
+        <th><%= label(:user, :password) %></th>
+        <td>
+          <%= form.password_field(:password) %>
+          <%= text_or_error_message_on('<em>(must be at least 4 characters long)</em>', :user, :password, 'Password ', '.') %>
+        </td>
+      </tr>
+      <tr class="even last">
+        <th><%= label(:user, :password_confirmation, 'Confirm') %></th>
+        <td>
+          <%= form.password_field(:password_confirmation) %>
+          <%= error_message_on(:user, :password_confirmation, 'Confirmation ', '.') %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

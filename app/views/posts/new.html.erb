@@ -1,0 +1,45 @@
+<% content_for(:header) do %>
+  <h2>Post a New Book</h2>
+<% end %>
+
+<p>
+  To post a book, begin by entering its ISBN below. An ISBN is a 10- or 13-digit number usually
+  printed with a book's UPC or on its inside cover.
+</p>
+
+<% form_for(:book, :url => review_new_post_path) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td><%= form.submit('Next &raquo;') %></td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr class="odd last">
+        <th><%= label(:book, :isbn, 'ISBN') %></th>
+        <td>
+          <%= form.text_field(:isbn) %>
+          <p id="valid_isbn" class="flash-notice" style="display: none">That looks like a valid ISBN!</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<script type="text/javascript">
+//<![CDATA[
+  Event.observe(window, 'load', function() {
+    Form.Element.focus('book_isbn')
+  });
+//]]>
+</script>
+
+<%= observe_field :book_isbn,
+  :url => {
+    :controller => 'books',
+    :action     => 'validate_isbn'
+  },
+  :frequency => 0.5,
+  :with      => 'isbn'
+%>

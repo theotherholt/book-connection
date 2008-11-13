@@ -1,0 +1,220 @@
+class Post < ActiveRecord::Base
+  ##
+  # Thrown when a user attempts to purchase a book that has already been
+  # purchased.
+  class PostNotAvailable < StandardError; end
+  
+  #--
+  # Validations
+  #++
+  validates_presence_of     :user_id, :message => 'must belong to a user'
+  validates_presence_of     :book_id, :message => 'must have an associated book'
+  validates_presence_of     :condition_id, :price
+  validates_numericality_of :price
+  validates_numericality_of :edition, :if => Proc.new { |post| !post[:edition].blank? }
+  
+  #--
+  # Relations
+  #++
+  belongs_to :user
+  belongs_to :book
+  belongs_to :buyer,
+             :class_name  => 'User',
+             :foreign_key => 'buyer_id'
+  
+  #--
+  # Plugins
+  #++
+  acts_as_state_machine(:initial => :passive)
+  
+  state :passive
+  state :for_sale, :enter => :mark_as_for_sale
+  state :sold,     :enter => :mark_as_sold
+  state :unavailable
+  
+  event :list do
+    transitions :from => [ :sold, :unavailable, :passive ],
+                :to   => :for_sale
+  end
+  
+  event :sell do
+    transitions :from => :for_sale,
+                :to   => :sold
+  end
+  
+  event :unlist do
+    transitions :from => [ :for_sale, :passive, :pending ],
+                :to   => :unavailable
+  end
+  
+  ##
+  # Returns the set of posts ordered by their book's title.
+  named_scope :ordered_by_title,
+              :include => :book,
+              :order   => '`books`.title ASC'
+  
+  ##
+  # Returns the set of posts ordered by their state.
+  named_scope :ordered_by_state, :order => '`posts`.state ASC'
+  
+  ##
+  # Returns the set of posts ordered by their price.
+  named_scope :ordered_by_price, :order => '`posts`.price ASC'
+  
+  ##
+  # Returns the set of posts that are in the 'for_sale' state.
+  named_scope :for_sale, :conditions => "`posts`.state = 'for_sale'"
+  
+  ##
+  # ==== Returns
+  # String::
+  #   The condition associated with the condition_id attribute.
+  #
+  # ==== Notes
+  # Rather than store this information in the database, the condition strings
+  # associated with the various condition_ids are stored in the CONDITION
+  # array here in the Post model.
+  def condition_with_formatting
+    Constants::CONDITION[self.condition_id - 1][0]
+  end
+  
+  ##
+  # ==== Returns
+  # String::
+  #   The ordinalized edition of the post if one is set, otherwise N/A.
+  def edition_with_formatting
+    (attribute_present?('edition')) ? self.edition.ordinalize : 'N/A'
+  end
+  
+  ##
+  # Set's the post's edition attribute, attempting to do some data cleaning in
+  # the process.
+  #
+  # ==== Parameters
+  # edition<~to_s>::
+  #   The post's edition.
+  #
+  # ==== Notes
+  # This method plays the delicate game of attempting to sanitize user data. It
+  # strips all formatting out of any edition it's given. So if the user input
+  # '4th' for the edition, this method would attempt to extract '4' from that.
+  #
+  # However, if it can't extract any valid numbers, then it simply sets whatever
+  # the user input, allowing Rails to do the appropirate error handling.
+  #
+  # It's messy I know, and there's definitely good cause to change this behavior.
+  def edition=(edition)
+    clean_edition = edition.to_s.gsub(/[^0-9]/, '').to_i
+    
+    if clean_edition.zero?
+      self[:edition] = edition
+    else
+      self[:edition] = clean_edition
+    end
+  end
+  
+  ##
+  # ==== Returns
+  # String::
+  #   The post's price, formatted as currency.
+  def price_with_formatting
+    ActionController::Base.helpers.number_to_currency(self.price)
+  end
+  
+  ##
+  # Set's the post's price attribute, attempting to do some data cleaning in
+  # the process.
+  #
+  # ==== Parameters
+  # price<~to_s>::
+  #   The post's price.
+  #
+  # ==== Notes
+  # This method plays the delicate game of attempting to sanitize user data. It
+  # strips all formatting out of any price it's given. So if the user input
+  # '$9.00' for the price, this method would attempt to extract '9.00' from that.
+  #
+  # However, if it can't extract any valid numbers, then it simply sets whatever
+  # the user input, allowing Rails to do the appropirate error handling.
+  #
+  # It's messy I know, and there's definitely good cause to change this behavior.
+  def price=(price)
+    clean_price = price.to_s.gsub(/\$/, '').to_f
+    
+    if clean_price.zero?
+      self[:price] = price
+    else
+      self[:price] = clean_price
+    end
+  end
+  
+  ##
+  # "Sells" a posted book to a buyer, associating that user with the buyer_id
+  # of the post.
+  #
+  # ==== Parameters
+  # buyer<User>::
+  #   The user who wants to buy this posted book.
+  #
+  # ==== Raises
+  # PostNotAvailable::
+  #   If the post isn't for sale.
+  def purchase(buyer)
+    raise PostNotAvailable unless self.for_sale?
+    self.buyer_id = (buyer.is_a?(User)) ? buyer.id : buyer
+    sell!
+  end
+  
+  ##
+  # ==== Returns
+  # String::
+  #   A neatly formatted state string.
+  def state_with_formatting
+    self.state.humanize.capitalize
+  end
+  
+  ##
+  # ==== Returns
+  # Boolean::
+  #   True if the post is for sale.
+  #
+  # ==== Notes
+  # This method is used in the edit post form to allow the user to specify the
+  # status of the post through radio buttons.
+  def status
+    self.for_sale?
+  end
+  
+  ##
+  # ==== Parameters
+  # status<~to_i>::
+  #   The new status of the post.
+  #
+  # ==== Notes
+  # This method is used in the edit post form to allow the user to specify the
+  # status of the post through radio buttons.
+  def status=(status)
+    if status.to_i.zero?
+      self.unlist!
+    else
+      self.list!
+    end
+  end
+  
+  #--
+  # Protected Methods
+  #++
+  protected
+  
+  ##
+  # Clears the sold_at attribute if the post is made available for sale.
+  def mark_as_for_sale
+    self.sold_at = nil
+  end
+  
+  ##
+  # Sets the sold_at attribute if the post is sold.
+  def mark_as_sold
+    self.sold_at = Time.now
+  end
+end

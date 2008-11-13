@@ -1,0 +1,35 @@
+velvet_elvis:
+  isbn: 9780310273080
+  title: Velvet Elvis
+  authors: rob_bell
+  photo_file_name: 'velvet_elvis.jpg'
+  photo_content_type: 'image/jpeg'
+  photo_file_size: 50
+  photo_updated_at: <%= Time.now %>
+
+blue_like_jazz:
+  isbn: 9780785263708
+  title: Blue Like Jazz
+  authors: donald_miller
+  photo_file_name: 'blue_like_jazz.jpg'
+  photo_content_type: 'image/jpeg'
+  photo_file_size: 50
+  photo_updated_at: <%= Time.now %>
+
+sex_god:
+  isbn: 9780310280675
+  title: Sex God
+  authors: rob_bell
+  photo_file_name: 'sex_god.jpg'
+  photo_content_type: 'image/jpeg'
+  photo_file_size: 50
+  photo_updated_at: <%= Time.now %>
+
+programming_ruby:
+  isbn: 9780974514055
+  title: Programming Ruby
+  authors: dave_thomas, chad_fowler, andy_hunt
+  photo_file_name: 'programming_ruby.jpg'
+  photo_content_type: 'image/jpeg'
+  photo_file_size: 50
+  photo_updated_at: <%= Time.now %>

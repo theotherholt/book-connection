@@ -1,0 +1,21 @@
+<div style="margin-top: 5px;">
+  <% if !@posts.nil? && !@posts.zero? %>
+    <%= pluralize(@posts_for_sale, 'copy') %> of this book currently for sale.<br />
+    <table style="margin-top: 5px; width: auto;">
+      <tbody>
+        <tr>
+          <th style="padding: 3px 10px 3px 3px; width: auto; border-bottom: none; text-align: left;">Lowest price</th>
+          <td style="padding: 3px; border-bottom: none;"><%= @book.lowest_price %></td>
+        </tr>
+        <tr>
+          <th style="padding: 3px 10px 3px 3px; width: auto; border-bottom: none; text-align: left;">Average price</th>
+          <td style="padding: 3px; border-bottom: none;"><%= @book.average_price %></td>
+        </tr>
+        <tr>
+          <th style="padding: 3px 10px 3px 3px; width: auto; border-bottom: none; text-align: left;">Average "sold for" price</th>
+          <td style="padding: 3px; border-bottom: none;"><%= @book.average_sold_price %></td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+</div>

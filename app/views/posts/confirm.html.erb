@@ -1,0 +1,12 @@
+<% content_for(:header) do %>
+  <h2>Confirm Purchase</h2>
+<% end %>
+
+<p>
+  Are you sure you want to buy "<%= h(@post.book.try(:title_with_formatting)) %>" from
+  <%= h(@post.user) %>? If you are, then click the button below and we'll send an email to
+  <%= h(@post.user.first_name) %>. Then it's up to you to contact each other and make arrangements
+  for the sale.
+</p>
+
+<%= button_to("Buy \"#{h(@post.book.try(:title_with_formatting))}\" from #{h(@post.user)}!", purchase_post_path(@post), { :style => 'margin-bottom: 20px;' }) %>

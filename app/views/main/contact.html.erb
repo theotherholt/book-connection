@@ -1,0 +1,46 @@
+<% content_for(:header) do %>
+  <h2>Contact Us</h2>
+<% end %>
+
+<% error_messages_for(:contact_form) %>
+
+<% form_for(@contact_form, :url => contact_path) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td><%= submit_tag('Submit Your Message &raquo;') %></td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr class="odd">
+        <th><%= label(:contact_form, :name) %></th>
+        <td><%= form.text_field(:name, { :value => self.current_user.try(:name) }) %></td>
+      </tr>
+      <tr class="even">
+        <th><%= label(:contact_form, :email) %></th>
+        <td>
+          <%= form.text_field(:email, { :value => self.current_user.try(:email) }) %>
+          <%= error_message_on(:contact_form, :email, 'Email ', '.') %>
+        </td>
+      </tr>
+      <tr class="odd">
+        <th><%= label(:contact_form, :subject) %></th>
+        <td>
+          <%= form.text_field(:subject) %>
+          ( <%= form.check_box(:bug) %><small><%= label(:contact_form, :bug, " I think I found a bug!") %></small> )
+        </td>
+      </tr>
+      <tr class="even last">
+        <th>
+          <%= label(:contact_form, :message) %>
+          <span>(required)</span>
+        </th>
+        <td>
+          <%= form.text_area(:message, { :rows => 10, :cols => 30 }) %>
+          <%= error_message_on(:contact_form, :message, 'Message ', '.') %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

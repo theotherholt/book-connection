@@ -1,0 +1,8 @@
+<div class="author">
+  <% fields_for('book[author_attributes][]', author_field) do |author| %>
+    <%= author.text_field(:name) %>
+    <% unless author_field_counter.zero? %>
+      <%= link_to_function(image_tag('remove.png', { :style => 'vertical-align: middle' }), "this.up().remove()") %>
+    <% end %>
+  <% end %>
+</div>

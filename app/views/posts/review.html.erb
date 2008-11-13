@@ -1,0 +1,61 @@
+<% content_for(:header) do %>
+  <h2>Edit Your Posted Book</h2>
+<% end %>
+
+<p>
+  We managed to fill in most of the information for your book. All that's left for you to do is fill
+  in a few more details and pick an asking price.
+</p>
+
+<% error_messages_for(:book, :post) %>
+
+<% form_for(:post, :url => posts_path) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td><%= form.submit('Post &raquo;') %></td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <% fields_for(:book) do |book| %>
+        <tr class="odd">
+          <th>ISBN</th>
+          <td>
+            <%= book.hidden_field(:isbn) %>
+            <%= @book.try(:isbn_with_formatting) %>
+          </td>
+        </tr>
+        <tr class="even">
+          <th>Title</th>
+          <td><%= @book.try(:title_with_formatting) %></td>
+        </tr>
+        <tr class="odd">
+          <th><%= @book.author_label_text %></th>
+          <td><%= @book.try(:authors_with_formatting) %></td>
+        </tr>
+      <% end %>
+      <tr class="even">
+        <th>
+          <%= label(:post, :edition) %>
+          <span>(optional)</span>
+        </th>
+        <td>
+          <%= form.text_field(:edition) %>
+          <%= error_message_on(:post, :edition, 'Edition ', '.') %>
+        </td>
+      </tr>
+      <tr class="odd">
+        <th><%= label(:post, :condition_id) %></th>
+        <td><%= form.select(:condition_id, Constants::CONDITION) %></td>
+      </tr>
+      <tr class="even last">
+        <th><%= label(:post, :price) %></th>
+        <td>
+          <%= form.text_field(:price) %>
+          <%= error_message_on(:post, :price, 'Price ', '.') %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

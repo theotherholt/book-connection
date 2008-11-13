@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Book Connection &raquo; <%= page_title %></title>
+    <%= stylesheet_link_tag('reset', 'application') %>
+    <%= javascript_include_tag('prototype', 'effects', 'application') %>
+  </head>
+<body>
+
+<div id="site-wrapper">
+  <div id="navigation" class="clearfix">
+    <h1><%= link_to(image_tag('logo.png', :alt => '[logo]') + 'Book Connection', root_path) %></h1>
+    <ul>
+      <%= link_for('Buy Books', 'buy', books_path) %>
+      <%= link_for('Sell Books', 'view', posts_path) %>
+    </ul>
+  </div>
+  <div id="header">
+    <div class="clearfix">
+      <%= yield :header %>
+      <%= account_menu %>
+    </div>
+  </div>
+  <%= render(:partial => 'shared/flash', :locals => { :flash => flash }) %>
+  <div id="body">
+    <div class="clearfix">
+      <%= yield :layout %>
+    </div>
+  </div>
+  <div id="footer">
+    <div>
+      <%= link_to('About Us', about_path) %> |
+      <%= link_to('Privacy Policy', privacy_path) %> |
+      <%= link_to('Contact Us', contact_path) %>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

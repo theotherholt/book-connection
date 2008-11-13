@@ -1,0 +1,275 @@
+ENV["RAILS_ENV"] = "production"
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+
+$old_db = {
+  :adapter  => 'mysql',
+  :host     => 'localhost',
+  :database => 'books_test',
+  :username => 'books_user',
+  :password => 'csxpass'
+}
+
+$new_db = {
+  :adapter  => 'mysql',
+  :host     => 'localhost',
+  :database => 'books_devel',
+  :username => 'books_user',
+  :password => 'csxpass'
+}
+
+module Old
+  class Book < ActiveRecord::Base
+    set_table_name('Book')
+    
+    establish_connection($old_db)
+  end
+  
+  class User < ActiveRecord::Base
+    set_table_name('the_User')
+    
+    establish_connection($old_db)
+  end
+  
+  class Post < ActiveRecord::Base
+    set_table_name('Post')
+    
+    establish_connection($old_db)
+  end
+end
+
+module New
+  class Book < ActiveRecord::Base
+    include ISBNTools
+    
+    establish_connection($new_db)
+    
+    has_and_belongs_to_many :authors
+    has_many :posts
+    
+    def self.find_or_initialize_by_isbn(isbn)
+      if book = Book.find_by_isbn(isbn)
+        return book
+      else
+        data = ISBNdb.find_by_isbn(isbn)
+        book = Book.new(data.except(:authors))
+        
+        data[:authors].each do |name|
+          book.authors << Author.find_or_create_by_name(name.strip)
+        end
+        
+        return book
+      end
+    end
+    
+    def isbn=(isbn)
+      begin
+        self[:isbn] = ISBNTools.normalize_isbn(isbn)
+      rescue ISBNTools::InvalidISBN
+        self[:isbn] = nil
+      end
+    end
+  end
+  
+  class Author < ActiveRecord::Base
+    establish_connection($new_db)
+    
+    has_and_belongs_to_many :books
+  end
+  
+  class AuthorBooks < ActiveRecord::Base
+    establish_connection($new_db)
+    
+    set_table_name('authors_books')
+  end
+  
+  class User < ActiveRecord::Base
+    establish_connection($new_db)
+    
+    has_many :posts
+    
+    attr_accessor :password, :password_confirmation
+    
+    before_save :encrypt_password
+    
+    acts_as_state_machine(:initial => :pending)
+    
+    state :passive
+    state :pending, :enter => :make_activation_code
+    state :active,  :enter => :do_activate
+    
+    event :register do
+      transitions :from => :passive, :to => :pending, :guard => Proc.new { |u| !(u.crypted_password.blank? && u.password.blank?) }
+    end
+    
+    event :activate do
+      transitions :from => :pending, :to => :active
+    end
+    
+    def self.encrypt(password, salt)
+      Digest::SHA1.hexdigest("--#{salt}--NaCl--#{password}--")
+    end
+    
+    def alumni
+      (self.alumni?) ? 1 : 0
+    end
+    
+    def alumni=(value)
+      self[:alumni] = (value.to_i.zero?) ? false : true
+    end
+    
+    def email
+      self.username + ((self.alumni?) ? '@alumni.calvin.edu' : '@calvin.edu')
+    end
+    
+    def encrypt(password)
+      self.class.encrypt(password, self.salt)
+    end
+    
+    def phone=(phone)
+      self[:phone] = phone.to_s.gsub(/[^0-9]/, '')
+      if self[:phone].length == 4
+        self[:phone] = '616526' + self[:phone]
+      else
+        self[:phone] = phone if self[:phone].to_i == 0
+      end
+    end
+    
+    def reset_password
+      new_password = User.random_hash(8)
+      self.set_password(new_password)
+    end
+    
+    def set_password(password)
+      self.update_attributes(
+        :password => password,
+        :password_confirmation => password
+      )
+      self.password = password
+    end
+    
+    protected
+      def do_activate
+        self.activated_at = Time.now.utc
+        self.deleted_at = self.activation_code = nil
+      end
+      
+      def encrypt_password
+        return if self.password.blank?
+        self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{self.username}--") if new_record?
+        self.crypted_password = encrypt(self.password)
+      end
+      
+      def make_activation_code
+        self.deleted_at = nil
+        self.update_attribute(:activation_code, Digest::SHA1.hexdigest(User.random_hash(8)))
+      end
+    
+    private
+      def self.random_hash(size)
+        chars = ('a'..'f').to_a + ('A'..'F').to_a + ('1'..'9').to_a
+        Array.new(size) { chars[ rand(chars.size) ] }.join
+      end
+  end
+  
+  class Post < ActiveRecord::Base
+    establish_connection($new_db)
+    
+    CONDITION = {
+      'good'     => 1, # New
+      'like new' => 2, # Almost New
+      'decent'   => 3, # Used
+      'bad'      => 4, # Worn
+      'horrible' => 5  # Damaged
+    }
+    
+    STATE = {
+      'removed'  => 'unavailable',
+      'sold'     => 'sold',
+      'for sale' => 'for_sale'
+    }
+    
+    belongs_to :user
+    belongs_to :book
+    
+    def edition=(edition)
+      self[:edition] = edition.to_s.gsub(/[^0-9]/, '').to_i
+      self[:edition] = nil if self[:edition] == 0
+    end
+    
+    def price=(price)
+      self[:price] = price.to_s.gsub(/\$/, '').to_f
+      self[:price] = nil if self[:price] == 0.0
+    end
+  end
+end
+
+puts "Clearing the database contents from previous runs..."
+New::Book.delete_all
+New::User.delete_all
+New::Post.delete_all
+New::Author.delete_all
+New::AuthorBooks.delete_all
+
+# This version of the book migration just copies the data from the old database.
+old_books = Old::Book.find(:all)
+old_books.each do |old_book|
+  New::Book.new do |new_book|
+    unless old_book.Title.blank?
+      new_book.isbn  = old_book.ISBN
+      new_book.title = old_book.Title.titleize.gsub('\'S', '\'s')
+      
+      new_authors = []
+      unless old_book.Author.blank?
+        old_book.Author.titleize.split(',').each do |author|
+          new_authors << New::Author.find_or_create_by_name(author.strip)
+        end
+      end
+      new_book.authors.push(new_authors.uniq)
+      
+      new_book.save
+    end
+  end
+end
+
+old_users = Old::User.find(:all)
+old_users.each do |old_user|
+  New::User.new do |new_user|
+    new_user.first_name    = old_user.firstname
+    new_user.last_name     = old_user.lastname
+    new_user.username      = old_user.userID
+    new_user.phone         = old_user.phone
+    new_user.alumni        = old_user.alumni
+    new_user.created_at    = old_user.accountCreated
+    new_user.last_login_at = old_user.login_Date
+    
+    new_user.reset_password
+    
+    UserMailer.deliver_migrate_account(new_user)
+    
+    new_user.save
+    new_user.register!
+    new_user.activate!
+  end
+end
+
+new_users = New::User.find(:all)
+new_users.each do |new_user|
+  old_user_posts = Old::Post.find(:all, :conditions => [ "uID = ?", new_user.username ])
+  
+  unless old_user_posts.empty?
+    old_user_posts.each do |old_post|
+      new_user.posts << New::Post.new do |new_post|
+        new_post.buyer_id     = User.find_by_username(old_post.buyerID)
+        new_post.book_id      = New::Book.find_by_isbn(ISBNTools.normalize_isbn(old_post.ISBN)).id
+        new_post.condition_id = New::Post::CONDITION[old_post.condition]
+        new_post.state        = New::Post::STATE[old_post.status]
+        new_post.price        = old_post.price
+        new_post.sold_at      = old_post.date_sold
+        new_post.created_at   = old_post.date_Posted
+        new_post.updated_at   = old_post.date_updated
+      end
+    end
+  end
+  
+  new_user.save
+end

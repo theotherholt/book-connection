@@ -1,0 +1,19 @@
+rob_bell:
+  name: Rob Bell
+  books: velvet_elvis
+
+donald_miller:
+  name: Donald Miller
+  books: blue_like_jazz
+
+dave_thomas:
+  name: Dave Thomas
+  books: programming_ruby
+
+chad_fowler:
+  name: Chad Fowler
+  books: programming_ruby
+
+andy_hunt:
+  name: Andy Hunt
+  books: programming_ruby

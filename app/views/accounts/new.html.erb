@@ -1,0 +1,71 @@
+<% content_for(:header) do %>
+  <h2>Register</h2>
+<% end %>
+
+<% error_messages_for(:user) %>
+
+<p>
+  To create an account simply enter your Calvin username (the username you use to login to Calvin's
+  webmail service) and fill in the rest of the form. An activation code will be sent to your
+  <%= link_to('webmail', 'http://webmail.calvin.edu') %> account. After activating your account you
+  will be able to login to Book Connection and start selling (or buying).
+</p>
+
+<% form_for(:user, :url => account_path) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td><%= form.submit('Create Account &raquo;') %></td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr class="odd">
+        <th><%= label(:user, :first_name) %></th>
+        <td>
+          <%= form.text_field(:first_name) %>
+          <%= error_message_on(:user, :first_name, 'First name ', '.') %>
+        </td>
+      </tr>
+      <tr class="even">
+        <th><%= label(:user, :last_name) %></th>
+        <td>
+          <%= form.text_field(:last_name) %>
+          <%= error_message_on(:user, :last_name, 'Last name ', '.') %>
+        </td>
+      </tr>
+      <tr class="odd">
+        <th><%= label(:user, :username) %></th>
+        <td>
+          <%= form.text_field(:username) %>
+          <%= form.select(:alumni, { '@alumni.calvin.edu' => 1, '@calvin.edu' => 0 }) %>
+          <%= error_message_on(:user, :username, 'Username ', '.') %>
+        </td>
+      </tr>
+      <tr class="even">
+        <th>
+          <%= label(:user, :phone) %>
+          <span>(optional)</span>
+        </th>
+        <td>
+          <%= form.text_field(:phone) %>
+          <%= error_message_on(:user, :phone, 'Phone ', '.') %>
+        </td>
+      </tr>
+      <tr class="odd">
+        <th><%= label(:user, :password) %></th>
+        <td>
+          <%= form.password_field(:password) %>
+          <%= text_or_error_message_on('<em>(must be at least 4 characters long)</em>', :user, :password, 'Password ', '.') %>
+        </td>
+      </tr>
+      <tr class="even last">
+        <th><%= label(:user, :password_confirmation, 'Confirm') %></th>
+        <td>
+          <%= form.password_field(:password_confirmation) %>
+          <%= error_message_on(:user, :password_confirmation, 'Confirmation ', '.') %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,16 @@
+Hi <%= h(@buyer.first_name) %>,
+
+You've just bought the following book on the Book Connection:
+
+  Title:  <%= h(@book.try(:title_with_formatting)) %>
+  Author: <%= h(@book.try(:authors_with_formatting)) %>
+  ISBN:   <%= h(@book.try(:isbn_with_formatting)) %>
+  Price:  <%= h(@post.try(:price_with_formatting)) %>
+
+You can use this info get in touch with the owner, <%= h(@seller.name) %>:
+
+  Phone: <%= h(@seller.phone) %>
+  Email: <%= h(@seller.email) %>
+
+Please contact this person to arrange the actual transfer of money
+and the book that is to be bought.

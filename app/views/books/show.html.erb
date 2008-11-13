@@ -1,0 +1,21 @@
+<% content_for(:header) do %>
+  <h2>Buy "<%= h(@book.try(:title_with_formatting)) %>"</h2>
+<% end %>
+
+<%= image_tag(@book.photo.url, :width => '100', :style => 'margin-bottom: 20px; float: left;') %>
+
+<div style="margin: 0 0 20px 15px; float: left;">
+  <table class="striped" style="width: 545px;">
+    <thead>
+      <tr>
+        <th style="width: 60px; text-align: center;">Price</th>
+        <th style="width: 194px;">Seller</th>
+        <th style="width: 100px; text-align: center;">Condition</th>
+        <th style="width: 110px; text-align: center;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render(:partial => 'post', :collection => @book.posts.for_sale.ordered_by_price) %>
+    </tbody>
+  </table>
+</div>

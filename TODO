@@ -1,0 +1,11 @@
+New Feature Ideas::
+  - Propose a meeting location
+  - Propose a cheaper price for a book
+  - Buyer / seller ratings
+  - iPhone integration
+  - Report an unresponsive user!
+
+Fix::
+  - Valid ISBN indicator on PostController::new
+  - Restore the "price help" feature
+  - Provide a means for users to get a new activation email

@@ -1,0 +1,2 @@
+module AccountHelper # :nodoc:
+end
