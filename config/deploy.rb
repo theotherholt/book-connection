@@ -1,29 +1,54 @@
 require 'mongrel_cluster/recipes'
 
+##
+# The name of the application.
 set :application, 'books'
-set :repository, 'svn://10.254.254.1/bookdev/trunk'
 
 ##
-# This should be your username for Gawaine.
-set :user, 'rah6'
+# The repository where the application is stored.
+set :repository, 'git://github.com/SeiferSays/book-connection.git'
 
 ##
-# These options make sure that Capistrano doesn't try and do anything more than it ought to.
+# Sets our source control manager to Git.
+set :scm, :git
+
+##
+# Tells Capistrano to pull from the master (read: trunk) branch.
+set :branch, "master"
+
+##
+# Forces a GitHub password prompt.
+default_run_options[:pty] = true
+
+##
+# Remote caching will keep a local git repo on the server you’re deploying to and simply run a
+# fetch from that rather than an entire clone. This is probably the best option and will only fetch
+# the differences each deploy
+set :deploy_via, :remote_cache
+
+##
+# Prompts for the username on Gawaine.
+set :user, Proc.new { Capistrano::CLI::ask('Gawaine username: ') }
+
+##
+# Keeps Capistrano within its bounds.
 set :use_sudo, false
 set :runner, nil
 
 ##
-# This option allows us to connect to SVN with a username other than our own.
-set :scm_username, 'rah6'
+# Prompts for the GitHub username and password.
+#
+# NOTE: This will eventually need to be an account setup specifically on Gawaine and GitHub for
+#       deployment.
+set :scm_username, Proc.new { Capistrano::CLI::ask('GitHub username: ') }
 set :scm_password, Proc.new { Capistrano::CLI::password_prompt('SVN Password: ') }
 
 ##
-# If you aren't deploying to /u/apps/#{application} on the target servers (which is the default),
-# you can specify the actual location via the :deploy_to variable:
+# Where to deploy the code to on Gawaine.
 set :deploy_to, '/var/www/localhost/htdocs/books'
 
 ##
-# This reference includes everything Capistrano needs to know about our Mongrel setup.
+# Where to find the Mongrel files. Soon to be removed when we move to Passenger.
 set :mongrel_conf, "#{current_path}/mongrel_cluster.yml"
 
 role :app, '153.106.130.23'
