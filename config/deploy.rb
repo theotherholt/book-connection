@@ -1,40 +1,20 @@
-##
-# The name of the application.
 set :application, 'books'
 
-##
-# The repository where the application is stored.
 set :repository, 'git://github.com/SeiferSays/book-connection.git'
-
-##
-# Sets our source control manager to Git.
 set :scm, :git
-
-##
-# Tells Capistrano to pull from the master (read: trunk) branch.
 set :branch, 'master'
 
-##
-# Forces a GitHub password prompt.
-default_run_options[:pty] = true
-
-##
-# Remote caching will keep a local git repo on the server you’re deploying to and simply run a
-# fetch from that rather than an entire clone. This is probably the best option and will only fetch
-# the differences each deploy
-set :deploy_via, :remote_cache
-
-##
-# The username on Gawaine.
 set :user, 'books'
-
-##
-# Where to deploy the code to on Gawaine.
 set :deploy_to, '/home/books/book-connection'
+set :deploy_via, :remote_cache
+set :use_sudo, false
+set :runner, nil
 
 role :app, 'csx.calvin.edu'
 role :web, 'csx.calvin.edu'
 role :db,  'csx.calvin.edu', :primary => true
+
+default_run_options[:pty] = true
 
 namespace :deploy do
   desc "Tell Passenger and the Ferret server to restart."
