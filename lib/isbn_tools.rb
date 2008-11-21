@@ -84,7 +84,7 @@ module ISBNTools # :nodoc: all
   
   def self.normalize_isbn(isbn)
     return if isbn.nil?
-    cleanup!(isbn)
+    clean_isbn = cleanup(isbn)
     
     if is_valid_isbn10?(isbn)
       return isbn10_to_isbn13(isbn)

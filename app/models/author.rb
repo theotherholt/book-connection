@@ -9,11 +9,6 @@ class Author < ActiveRecord::Base
   #++
   has_and_belongs_to_many :books
   
-  #--
-  # Plugins
-  #++
-  acts_as_ferret(:fields => [ :name ], :remote => true)
-  
   ##
   # ==== Returns
   # String::

@@ -10,7 +10,6 @@
           <tr>
             <td>
               <%= text_field_tag(:query, params[:query], {:style => 'width: 470px;'}) %>
-              <%= select_tag(:type, options_for_select([['ISBN', 'isbn'], ['Title', 'title'], ['Author', 'author']], params[:type])) %>
               <%= submit_tag('Search') %>
             </td>
           </tr>

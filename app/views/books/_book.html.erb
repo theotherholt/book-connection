@@ -3,7 +3,7 @@
     <div class="book clearfix">
       <%= link_to(image_tag(book.photo.url, :width => '50'), book_path(book)) %>
       <div style="margin-left: 15px; width: 390px; float: left;">
-        <h3><%= link_to(h(book.try(:title_with_formatting)), book_path(book)) %></h3>
+        <h3><%= link_to(h(book.title), book_path(book)) %></h3>
         <table class="compact">
           <tbody>
             <tr>

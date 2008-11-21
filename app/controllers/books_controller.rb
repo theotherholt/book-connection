@@ -2,31 +2,21 @@ class BooksController < ApplicationController # :nodoc:
   skip_before_filter :require_login
   
   def search
-    case params[:type]
-    when 'isbn'
+    unless params[:query].blank?
       begin
         book = Book.find_by_isbn(params[:query], :include => [ :authors, :posts ])
       rescue ISBNTools::InvalidISBN
-        flash[:warning] = $!.to_s
-        redirect_to(books_path) && return
-      else
-        @books = [ book ].compact
+        # Do nothing...
+      ensure
+        if book
+          @books = [ book ]
+        else
+          @books = Book.search(params[:query], :include => [ :authors, :posts ])
+        end
       end
       
-      if @books.empty? || @books.all? { |book| book.posts.for_sale.empty? }
-        flash.now[:warning] = "We couldn't find any books with the ISBN #{params[:query]}."
-      end
-    when 'title'
-      @books = Book.search_by_title(params[:query])
-      
-      if @books.empty? || @books.all? { |book| book.posts.for_sale.empty? }
-        flash.now[:warning] = "We couldn't find any books with the title \"#{params[:query]}\"."
-      end
-    when 'author'
-      @books = Book.search_by_author(params[:query])
-      
-      if @books.empty? || @books.all? { |book| book.posts.for_sale.empty? }
-        flash.now[:warning] = "We couldn't find any books by authors with the name \"#{params[:query]}\"."
+      if @books.empty?
+        flash[:warning] = "No books matched your search terms."
       end
     end
     

@@ -18,10 +18,12 @@ class Book < ActiveRecord::Base
   has_and_belongs_to_many :authors
   has_many :posts
   
-  #--
-  # Plugins
-  #++
-  acts_as_ferret(:fields => [ :title ], :remote => true)
+  define_index do
+    set_property :delta => true
+    
+    indexes title, :sortable => true
+    indexes authors.name, :as => :author_name
+  end
   
   has_attached_file :photo,
                     :url  => '/images/books/:id/:style/:basename.:extension',
@@ -107,37 +109,6 @@ class Book < ActiveRecord::Base
           raise LookupFailedError
         end
       end
-    end
-    
-    ##
-    # Finds all the books by a given author.
-    #
-    # ==== Parameters
-    # author<String>::
-    #   The name of the author to find books for.
-    #
-    # ==== Returns
-    # Array::
-    #   An array of books by the given author.
-    def search_by_author(author)
-      returning([]) do |books|
-        Author.find_by_contents(author, :include => :books).each { |author| books << author.books }
-        books.flatten!
-      end
-    end
-    
-    ##
-    # Finds all books with a given title.
-    #
-    # ==== Parameters
-    # title<String>::
-    #   The title of the books to find.
-    #
-    # ==== Returns
-    # Array::
-    #   An array of books with the given title.
-    def search_by_title(title)
-      self.find_by_contents(title, :include => :authors, :order => '`books`.title ASC').flatten
     end
   end
   
@@ -240,9 +211,9 @@ class Book < ActiveRecord::Base
   ##
   # ==== Returns
   # String::
-  #   The title of the book, truncated to 50 characters.
+  #   The title of the book, truncated to 30 characters.
   def title_with_formatting
-    ActionController::Base.helpers.truncate(self.title, 50)
+    ActionController::Base.helpers.truncate(self.title, 30)
   end
   
   ##
