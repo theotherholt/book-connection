@@ -31,20 +31,8 @@ set :deploy_via, :remote_cache
 set :user, 'books'
 
 ##
-# Keeps Capistrano within its bounds.
-set :use_sudo, false
-
-##
-# Prompts for the GitHub password.
-#set :scm_password, Proc.new { Capistrano::CLI::password_prompt('GitHub Password: ') }
-
-##
 # Where to deploy the code to on Gawaine.
 set :deploy_to, '/home/books/book-connection'
-
-##
-# Where to find the Mongrel files. Soon to be removed when we move to Passenger.
-set :mongrel_conf, "#{current_path}/mongrel_cluster.yml"
 
 role :app, 'csx.calvin.edu'
 role :web, 'csx.calvin.edu'
