@@ -46,9 +46,9 @@ set :deploy_to, '/home/books/book-connection'
 # Where to find the Mongrel files. Soon to be removed when we move to Passenger.
 set :mongrel_conf, "#{current_path}/mongrel_cluster.yml"
 
-role :app, '153.106.130.23'
-role :web, '153.106.130.23'
-role :db,  '153.106.130.23', :primary => true
+role :app, 'csx.calvin.edu'
+role :web, 'csx.calvin.edu'
+role :db,  'csx.calvin.edu', :primary => true
 
 namespace :deploy do
   task :restart do
