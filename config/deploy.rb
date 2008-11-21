@@ -40,7 +40,7 @@ set :use_sudo, false
 
 ##
 # Where to deploy the code to on Gawaine.
-set :deploy_to, '/var/www/localhost/htdocs/books'
+set :deploy_to, '/home/books/book-connection'
 
 ##
 # Where to find the Mongrel files. Soon to be removed when we move to Passenger.
