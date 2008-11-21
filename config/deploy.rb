@@ -24,8 +24,11 @@ namespace :deploy do
   desc "Tell Passenger and the Ferret server to restart."
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
-    run "cd #{current_path} && ruby script/ferret_server -e production stop"
-    run "cd #{current_path} && ruby script/ferret_server -e production start"
+  end
+  
+  desc "Links in the Ferret server index."
+  task :symlink_index do
+    run "ln -fs #{shared_path}/index #{release_path}/index"
   end
   
   desc "Symlink shared configs and folders on each release."
@@ -34,4 +37,5 @@ namespace :deploy do
   end
 end
 
+before 'deploy:symlink', 'deploy:symlink_index'
 after 'deploy:update_code', 'deploy:symlink_shared'
