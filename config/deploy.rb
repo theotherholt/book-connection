@@ -51,9 +51,17 @@ role :web, 'csx.calvin.edu'
 role :db,  'csx.calvin.edu', :primary => true
 
 namespace :deploy do
+  desc "Tell Passenger and the Ferret server to restart."
   task :restart do
-    run "cd #{current_path} && mongrel_rails cluster::restart"
+    run "touch #{current_path}/tmp/restart.txt"
     run "cd #{current_path} && ruby script/ferret_server -e production stop"
     run "cd #{current_path} && ruby script/ferret_server -e production start"
   end
+  
+  desc "Symlink shared configs and folders on each release."
+  task :symlink_shared do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
 end
+
+after 'deploy:update_code', 'deploy:symlink_shared'
