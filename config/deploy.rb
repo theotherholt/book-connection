@@ -3,6 +3,7 @@ set :application, 'books'
 set :repository, 'git://github.com/SeiferSays/book-connection.git'
 set :scm, :git
 set :branch, 'master'
+set :git_enable_submodules, 1
 
 set :user, 'books'
 set :deploy_to, '/home/books/book-connection'
