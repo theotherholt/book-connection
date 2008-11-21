@@ -16,6 +16,11 @@ role :db,  'csx.calvin.edu', :primary => true
 default_run_options[:pty] = true
 
 namespace :deploy do
+  desc "Does nothing."
+  task :start do
+    # Do nothing...Passenger should be running already.
+  end
+  
   desc "Tell Passenger to restart."
   task :restart do
     restart_sphinx
