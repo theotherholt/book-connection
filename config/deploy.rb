@@ -16,6 +16,11 @@ role :db,  'csx.calvin.edu', :primary => true
 default_run_options[:pty] = true
 
 namespace :deploy do
+  desc "Starts up the Ferret server."
+  task :start do
+    run "cd #{current_path} && ruby script/ferret_server -e production start"
+  end
+  
   desc "Tell Passenger and the Ferret server to restart."
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
