@@ -1,5 +1,3 @@
-require 'mongrel_cluster/recipes'
-
 ##
 # The name of the application.
 set :application, 'books'
