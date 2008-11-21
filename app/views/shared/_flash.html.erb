@@ -1,5 +1,5 @@
 <% if flash[:warning] || flash[:errors] %>
-  <div id="flash-warning">
+  <div class="flash-warning">
     <div>
       <% flash.each do |key, message| %>
         <%= simple_format(message) %>
@@ -9,7 +9,7 @@
 <% end %>
 
 <% if flash[:notice] %>
-  <div id="flash-notice">
+  <div class="flash-notice">
     <div>
       <% flash.each do |key, message| %>
         <%= simple_format(message) %>

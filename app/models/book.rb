@@ -3,7 +3,7 @@ require 'xmlsimple'
 
 class Book < ActiveRecord::Base
   ##
-  # Raised when a request to ISBNdb comes back with anything but HTTPOK.
+  # Raised when a request to Amazon comes back with anything but HTTPOK.
   class LookupFailedError < StandardError; end
   
   #--
@@ -21,22 +21,22 @@ class Book < ActiveRecord::Base
   #--
   # Plugins
   #++
-  acts_as_ferret :fields => [ :title ], :remote => true
+  acts_as_ferret(:fields => [ :title ], :remote => true)
   
   has_attached_file :photo,
                     :url  => '/images/books/:id/:style/:basename.:extension',
                     :path => ':rails_root/public/images/books/:id/:style/:basename.:extension'
   
   ##
-  # Returns the set of books with a given ISBN.
+  # Limits the query scope to the set of books with a given ISBN.
   #
   # ==== Parameters
   # isbn<String>::
-  #   The ISBN of the book to find.
+  #   The ISBN to use in the scope.
   named_scope :with_isbn, lambda { |isbn| {:conditions => "`books`.isbn = #{ISBNTools.normalize_isbn(isbn)}"}}
   
   ##
-  # Returns the set of books ordered by their title.
+  # Orders the query results by the book titles.
   named_scope :ordered_by_title, :order => '`books`.title ASC'
   
   #--
@@ -49,17 +49,19 @@ class Book < ActiveRecord::Base
     # ==== Parameters
     # isbn<Sring>::
     #   The ISBN of the book to find.
+    # options<Hash>::
+    #   The standard ActiveRecord find options hash.
     #
     # ==== Returns
     # Book::
-    #   The book corresponding to the given ISBN.
+    #   The book with the given ISBN.
     def find_by_isbn(isbn, options={})
       self.with_isbn(isbn).find(:first, options)
     end
     
     ##
-    # Finds a book based on its ISBN. Looks first in the local database, then in
-    # the remote ISBNdb database.
+    # Finds a book based on its ISBN. First looks in the local database. If it
+    # can't find the book there, then it searches for it on Amazon.
     #
     # ==== Parameters
     # isbn<Sring>::
@@ -67,7 +69,11 @@ class Book < ActiveRecord::Base
     #
     # ==== Returns
     # Book::
-    #   The book corresponding to the given ISBN.
+    #   The book with the given ISBN.
+    #
+    # ==== Raises
+    # LookupFailedError::
+    #   When a request to Amazon comes back with anything but HTTPOK.
     def find_or_initialize_by_isbn(isbn)
       if book = self.find_by_isbn(isbn)
         book
@@ -104,15 +110,15 @@ class Book < ActiveRecord::Base
     end
     
     ##
-    # Finds all books by a given author.
+    # Finds all the books by a given author.
     #
     # ==== Parameters
     # author<String>::
-    #   The author to query for.
+    #   The name of the author to find books for.
     #
     # ==== Returns
     # Array::
-    #   An array of Book models whose author list matches the given author.
+    #   An array of books by the given author.
     def search_by_author(author)
       returning([]) do |books|
         Author.find_by_contents(author, :include => :books).each { |author| books << author.books }
@@ -125,18 +131,18 @@ class Book < ActiveRecord::Base
     #
     # ==== Parameters
     # title<String>::
-    #   The title to query for.
+    #   The title of the books to find.
     #
     # ==== Returns
     # Array::
-    #   An array of Book models whose title match the given title.
+    #   An array of books with the given title.
     def search_by_title(title)
       self.find_by_contents(title, :include => :authors, :order => '`books`.title ASC').flatten
     end
   end
   
   ##
-  # Sets up Author models associated with this book from an input hash.
+  # Sets up the Author models associated with this book from an input hash.
   #
   # ==== Parameters
   # author_attributes<Array>::
@@ -224,7 +230,7 @@ class Book < ActiveRecord::Base
   # String::
   #   The lowest price listed for this book.
   def lowest_price
-    number_to_currency(
+    ActionController::Base.helpers.number_to_currency(
       Post.minimum(:price, :conditions => [
         "posts.book_id = ? AND posts.state = 'for_sale'", self.id
       ])

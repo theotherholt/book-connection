@@ -111,10 +111,35 @@ describe Book, ".find_or_initialize_by_isbn" do
   end
 end
 
+describe Book, ".lowest_price" do
+  fixtures :books
+  
+  it "should format the lowest price as currency" do
+    ActionController::Base.helpers.should_receive(:number_to_currency).with(10.99).and_return('$10.99')
+    books(:velvet_elvis).lowest_price
+  end
+  
+  it "should return the price of the book with the lowest price" do
+    books(:velvet_elvis).lowest_price.should eql('$10.99')
+  end
+end
+
 describe Book, ".authors_with_formatting" do
   fixtures :books
   
   it "should return a string containing each of the book's authors separated by commas" do
     books(:programming_ruby).authors_with_formatting.should eql('Dave Thomas, Chad Fowler, Andy Hunt')
+  end
+end
+
+describe Book, ".title_with_formatting" do
+  it "should truncate the book's title to 50 characters" do
+    Book.new(:title => 'Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit').title_with_formatting.should eql('Lorem Ipsum Dolor Sit Amet Consectetur Adipisic...')
+  end
+end
+
+describe Book, ".to_s" do
+  it "should return the book's title" do
+    Book.new(:title => 'Velvet Elvis').to_s.should eql('Velvet Elvis')
   end
 end

@@ -235,6 +235,25 @@ div.book img {
   float: left;
 }
 
+div.book table {
+  margin-bottom: 0;
+  width: 390px;
+}
+
+div.book table tr th,
+div.book table tr td {
+  padding: 2px 2px 4px 2px;
+}
+
+div.book table tr th {
+  color: #444;
+}
+
+div.book table tr th,
+div.book table tr th {
+  width: 60px;
+}
+
 div.book div h3 {
   margin-bottom: 5px;
   font-size: 161.6%;
@@ -251,7 +270,7 @@ div.book ul {
 
 div.book ul li {
   padding: 10px 10px 10px 25px;
-  border-bottom:1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 div.book ul li.edit {
@@ -302,24 +321,24 @@ input.text, input.password, textarea {
 }
 
 /* -----| Flash |----------------------------------------------------------- */
-div#flash-warning,
-div#flash-notice {
+div.flash-warning,
+div.flash-notice {
   padding: 10px 0;
   text-align: center;
 }
 
-div#flash-warning {
+div.flash-warning {
   background-color: #ffff80;
   border-bottom: 1px solid #fc3;
 }
 
-div#flash-notice {
+div.flash-notice {
   background: #B3FFBC;
   border-bottom: 1px solid #618B68;
 }
 
-div#flash-warning > div,
-div#flash-notice > div {
+div.flash-warning > div,
+div.flash-notice > div {
   margin: 0 10px;
 }
 
@@ -355,4 +374,8 @@ div#password-notice {
 
 div#password-notice div {
   margin: 0 10px;
+}
+
+p#valid_isbn {
+  display: inline;
 }

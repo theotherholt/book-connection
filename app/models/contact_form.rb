@@ -3,7 +3,7 @@ class ContactForm < ActiveForm
   # Validations
   #++
   validates_presence_of :message
-  validates_format_of   :email, :with => /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/, :allow_blank => true
+  validates_format_of   :email, :with => Constants::EMAIL_FORMAT, :allow_blank => true
   
   #--
   # Accessors

@@ -4,8 +4,18 @@
       <%= link_to(image_tag(book.photo.url, :width => '50'), book_path(book)) %>
       <div style="margin-left: 15px; width: 390px; float: left;">
         <h3><%= link_to(h(book.try(:title_with_formatting)), book_path(book)) %></h3>
-        <h4><%= h(book.try(:isbn_with_formatting)) %></h4>
-        <h4><%= h(book.try(:authors_with_formatting)) %></h4>
+        <table class="compact">
+          <tbody>
+            <tr>
+              <th>ISBN</th>
+              <td><%= h(book.try(:isbn_with_formatting)) %></td>
+            </tr>
+            <tr>
+              <th><%= book.author_label_text %></th>
+              <td><%= h(book.try(:authors_with_formatting)) %></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div style="margin-left: 15px; width: 170px; float: left;">
         <ul>

@@ -21,5 +21,7 @@
 </div>
 
 <% if @books %>
-  <%= render(:partial => 'book', :collection => @books) %>
+  <div style="margin-bottom: 20px;">
+    <%= render(:partial => 'book', :collection => @books) %>
+  </div>
 <% end %>

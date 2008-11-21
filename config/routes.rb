@@ -13,7 +13,8 @@ ActionController::Routing::Routes.draw do |map|
                 }
   map.resources :books,
                 :collection => {
-                  :search => :any
+                  :search => :any,
+                  :validate_isbn => :any
                 }
   
   ##

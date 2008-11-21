@@ -21,14 +21,13 @@ class SessionsController < ApplicationController # :nodoc:
       end
     else # The user wants their password reset...
       if user = User.find_by_username(params[:user][:username])
+        user.reset_password
+        UserMailer.deliver_reset_password(user)
+        
         flash[:notice] = %{
           We just emailed your new password to your address, #{user.email}. Check your
           <a href="http://webmail.calvin.edu/">webmail</a> to retrieve it.
         }
-        
-        user.reset_password
-        UserMailer.deliver_reset_password(user)
-        
         redirect_to(new_session_path)
       else
         flash[:notice] = "We couldn't find an account with that username."

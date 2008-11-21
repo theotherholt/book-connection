@@ -101,8 +101,6 @@ class Post < ActiveRecord::Base
   #
   # However, if it can't extract any valid numbers, then it simply sets whatever
   # the user input, allowing Rails to do the appropirate error handling.
-  #
-  # It's messy I know, and there's definitely good cause to change this behavior.
   def edition=(edition)
     clean_edition = edition.to_s.gsub(/[^0-9]/, '').to_i
     
@@ -136,8 +134,6 @@ class Post < ActiveRecord::Base
   #
   # However, if it can't extract any valid numbers, then it simply sets whatever
   # the user input, allowing Rails to do the appropirate error handling.
-  #
-  # It's messy I know, and there's definitely good cause to change this behavior.
   def price=(price)
     clean_price = price.to_s.gsub(/\$/, '').to_f
     

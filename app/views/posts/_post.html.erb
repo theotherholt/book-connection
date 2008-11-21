@@ -3,9 +3,30 @@
     <%= image_tag(post.book.photo.url, :width => '50') %>
     <div style="margin-left: 15px; width: 390px; float: left;">
       <h3><%= h(post.book.try(:title_with_formatting)) %></h3>
-      <h4><%= h(post.book.try(:isbn_with_formatting)) %></h4>
-      <h4><%= h(post.book.try(:authors_with_formatting)) %></h4>
-      <h4><%= h(post.try(:price_with_formatting)) %></h4>
+      <table>
+        <tbody>
+          <tr>
+            <th>ISBN</th>
+            <td><%= h(post.book.try(:isbn_with_formatting)) %></td>
+          </tr>
+          <tr>
+            <th><%= post.book.author_label_text %></th>
+            <td><%= h(post.book.try(:authors_with_formatting)) %></td>
+          </tr>
+          <tr>
+            <th>Edition</th>
+            <td><%= h(post.try(:edition_with_formatting)) %></td>
+          </tr>
+          <tr>
+            <th>Price</th>
+            <td><%= h(post.try(:price_with_formatting)) %></td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td><%= h(post.try(:state_with_formatting)) %></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div style="margin-left: 15px; width: 170px; float: left;">
       <% if !post.sold? %>

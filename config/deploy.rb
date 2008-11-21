@@ -14,7 +14,7 @@ set :scm, :git
 
 ##
 # Tells Capistrano to pull from the master (read: trunk) branch.
-set :branch, "master"
+set :branch, 'master'
 
 ##
 # Forces a GitHub password prompt.
@@ -27,21 +27,16 @@ default_run_options[:pty] = true
 set :deploy_via, :remote_cache
 
 ##
-# Prompts for the username on Gawaine.
-set :user, Proc.new { Capistrano::CLI::ask('Gawaine username: ') }
+# The username on Gawaine.
+set :user, 'books'
 
 ##
 # Keeps Capistrano within its bounds.
 set :use_sudo, false
-set :runner, nil
 
 ##
-# Prompts for the GitHub username and password.
-#
-# NOTE: This will eventually need to be an account setup specifically on Gawaine and GitHub for
-#       deployment.
-set :scm_username, Proc.new { Capistrano::CLI::ask('GitHub username: ') }
-set :scm_password, Proc.new { Capistrano::CLI::password_prompt('SVN Password: ') }
+# Prompts for the GitHub password.
+#set :scm_password, Proc.new { Capistrano::CLI::password_prompt('GitHub Password: ') }
 
 ##
 # Where to deploy the code to on Gawaine.

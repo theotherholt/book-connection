@@ -12,10 +12,20 @@ describe Author, "associations" do
   end
 end
 
-describe Author, ".to_s" do
+describe Author, ".find_by_contents" do
   fixtures :authors
   
+  it "should find 'Rob Bell' given 'rob'" do
+    Author.find_by_contents('rob').first.should eql(authors(:rob_bell))
+  end
+  
+  it "should find 'Rob Bell' given 'bell'" do
+    Author.find_by_contents('bell').first.should eql(authors(:rob_bell))
+  end
+end
+
+describe Author, ".to_s" do
   it "should return the author's name" do
-    authors(:rob_bell).to_s.should eql('Rob Bell')
+    Author.new(:name => 'Rob Bell').to_s.should eql('Rob Bell')
   end
 end
