@@ -8,7 +8,6 @@ set :user, 'books'
 set :deploy_to, '/home/books/book-connection'
 set :deploy_via, :remote_cache
 set :use_sudo, false
-set :runner, nil
 
 role :app, 'csx.calvin.edu'
 role :web, 'csx.calvin.edu'

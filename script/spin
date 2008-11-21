@@ -1,2 +1,0 @@
-/usr/bin/mongrel_rails cluster::start -C /var/www/localhost/htdocs/books/current/config/mongrel_cluster.yml
-/var/www/localhost/htdocs/books/current/script/ferret_server -e production start
