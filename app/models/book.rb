@@ -26,8 +26,9 @@ class Book < ActiveRecord::Base
   end
   
   has_attached_file :photo,
-                    :url  => '/images/books/:id/:style/:basename.:extension',
-                    :path => ':rails_root/public/images/books/:id/:style/:basename.:extension'
+                    :url         => '/images/books/:id/:style/:basename.:extension',
+                    :path        => ':rails_root/public/images/books/:id/:style/:basename.:extension',
+                    :default_url => '/images/missing.png'
   
   ##
   # Limits the query scope to the set of books with a given ISBN.

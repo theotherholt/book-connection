@@ -9,18 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081121210829) do
+ActiveRecord::Schema.define(:version => 20081122015254) do
 
   create_table "authors", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "name"
   end
 
   create_table "authors_books", :id => false, :force => true do |t|
     t.integer "author_id"
     t.integer "book_id"
   end
+
+  add_index "authors_books", ["author_id", "book_id"], :name => "author_book_join", :unique => true
 
   create_table "books", :force => true do |t|
     t.string   "isbn"
@@ -34,24 +34,13 @@ ActiveRecord::Schema.define(:version => 20081121210829) do
     t.boolean  "delta"
   end
 
-  create_table "books_courses", :id => false, :force => true do |t|
-    t.integer "book_id"
-    t.integer "course_id"
-  end
-
-  create_table "courses", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "posts", :force => true do |t|
     t.integer  "user_id"
     t.integer  "buyer_id"
     t.integer  "book_id"
     t.integer  "edition"
     t.integer  "condition_id"
-    t.string   "state",                                      :default => "passive"
+    t.string   "state"
     t.decimal  "price",        :precision => 5, :scale => 2
     t.datetime "sold_at"
     t.datetime "created_at"
@@ -66,13 +55,13 @@ ActiveRecord::Schema.define(:version => 20081121210829) do
     t.string   "crypted_password"
     t.string   "salt"
     t.string   "activation_code"
-    t.string   "state",            :default => "passive"
+    t.string   "state"
     t.datetime "activated_at"
     t.datetime "deleted_at"
     t.datetime "last_login_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "alumni",           :default => false
+    t.boolean  "alumni"
   end
 
 end
