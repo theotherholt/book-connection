@@ -11,7 +11,7 @@ class BooksController < ApplicationController # :nodoc:
         if book
           @books = [ book ]
         else
-          @books = Book.search(params[:query], :include => [ :authors, :posts ])
+          @books = Book.search(params[:query], :include => [ :authors, :posts ], :page => params[:page])
         end
       end
       

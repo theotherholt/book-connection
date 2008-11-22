@@ -366,6 +366,26 @@ div#footer > div > a {
   text-decoration: none;
 }
 
+/* -----| Pagination |-------------------------------------------- */
+div.pagination {
+  margin: 20px;
+  text-align: center;
+}
+
+div.pagination a,
+div.pagination span {
+  margin-right: 5px;
+  padding: 2px 6px;
+  background: #ececec;
+  border: 1px solid #ccc;
+  text-decoration: none;
+}
+
+div.pagination span.current {
+  background: #ffff80;
+  border: 1px solid #fc3;
+}
+
 /* -----| Misc |------------------------------------------------------------ */
 div#password-notice {
   padding: 10px 0;
@@ -378,4 +398,13 @@ div#password-notice div {
 
 p#valid_isbn {
   display: inline;
+}
+
+a.new-book {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #ffff80;
+  border: 1px solid #fc3;
+  text-align: center;
+  display: block;
 }

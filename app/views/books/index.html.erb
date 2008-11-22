@@ -23,4 +23,6 @@
   <div style="margin-bottom: 20px;">
     <%= render(:partial => 'book', :collection => @books) %>
   </div>
+  
+  <%= will_paginate(@books) %>
 <% end %>

@@ -10,7 +10,8 @@
     </div>
   </div>
 <% else %>
-  <div style="margin-bottom: 20px;">
+  <%= link_to('Click Here to Post a New Book', new_post_path, :class => 'new-book') %>
+  <div style="margin-bottom: 20px; clear: both;">
     <%= render(:partial => 'post', :collection => @posts) %>
   </div>
 <% end %>

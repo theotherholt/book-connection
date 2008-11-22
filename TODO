@@ -8,3 +8,6 @@ New Feature Ideas::
 Fix::
   - Restore the "price help" feature
   - Provide a means for users to get a new activation email
+
+Deploy::
+  - Write a cron job for the 'rake ts:in' command!
