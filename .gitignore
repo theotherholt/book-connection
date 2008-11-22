@@ -3,3 +3,4 @@ db/sphinx
 log/*.log
 config/database.yml
 config/*.sphinx.conf
+public/images/books/*
