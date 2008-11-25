@@ -1,6 +1,7 @@
 db/*.sqlite3
 db/sphinx
 log/*.log
+log/*.pid
 config/database.yml
 config/*.sphinx.conf
 public/images/books/*

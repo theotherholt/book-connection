@@ -2,13 +2,13 @@ class PostMailer < ActionMailer::Base # :nodoc:
   def sold_notification(post)
     setup_email(post)
     @recipients = post.user.email
-    @subject   += "Your Copy of \"#{post.book.try(:title_with_formatting)}\" Has Sold"
+    @subject   += "Your Copy of \"#{@template.truncate(post.book.title, 50)}\" Has Sold"
   end
   
   def purchased_notification(post)
     setup_email(post)
     @recipients = post.buyer.email
-    @subject   += "You've Purchased \"#{post.book.try(:title_with_formatting)}\""
+    @subject   += "You've Purchased \"#{@template.truncate(post.book.title, 50)}\""
   end
   
   protected

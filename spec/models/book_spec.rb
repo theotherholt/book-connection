@@ -18,11 +18,21 @@ describe Book, "associations" do
   it do
     Book.new.should have_and_belong_to_many(:authors)
   end
+  
+  it do
+    Book.new.should have_many(:posts)
+  end
 end
 
 describe Book, ".with_isbn scope" do
   it "should limit the result set to books with a given ISBN" do
     Book.with_isbn('9780964729230').proxy_options.should == {:conditions => "`books`.isbn = 9780964729230"}
+  end
+end
+
+describe Book, ".ordered_by_title scope" do
+  it "should order the result set by the book's title" do
+    Book.ordered_by_title.proxy_options.should == {:order => '`books`.title ASC'}
   end
 end
 
@@ -111,30 +121,58 @@ describe Book, ".find_or_initialize_by_isbn" do
   end
 end
 
-describe Book, ".lowest_price" do
+describe Book, ".author_label_text" do
   fixtures :books
   
-  it "should format the lowest price as currency" do
-    ActionController::Base.helpers.should_receive(:number_to_currency).with(10.99).and_return('$10.99')
-    books(:velvet_elvis).lowest_price
+  it "should return 'Authors' if a book has 2 or more authors" do
+    books(:programming_ruby).author_label_text.should eql('Authors')
   end
   
-  it "should return the price of the book with the lowest price" do
-    books(:velvet_elvis).lowest_price.should eql('$10.99')
+  it "should return 'Author' if a book has 1 author" do
+    books(:velvet_elvis).author_label_text.should eql('Author')
   end
 end
 
 describe Book, ".authors_with_formatting" do
-  fixtures :books
+  fixtures :books, :authors
   
   it "should return a string containing each of the book's authors separated by commas" do
-    books(:programming_ruby).authors_with_formatting.should eql('Dave Thomas, Chad Fowler, Andy Hunt')
+    books(:programming_ruby).authors_with_formatting.should eql('Chad Fowler, Andy Hunt, Dave Thomas')
   end
 end
 
-describe Book, ".title_with_formatting" do
-  it "should truncate the book's title to 50 characters" do
-    Book.new(:title => 'Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit').title_with_formatting.should eql('Lorem Ipsum Dolor Sit Amet Consectetur Adipisic...')
+describe Book, ".average_price" do
+end
+
+describe Book, ".average_sold_price" do
+end
+
+describe Book, ".isbn=" do
+  it "should normalize the book's ISBN" do
+    ISBNTools.should_receive(:normalize_isbn).with('9780964729230').and_return('9780964729230')
+    Book.new.isbn = '9780964729230'
+  end
+  
+  it "should set the book's ISBN to nil if given an invalid ISBN" do
+    ISBNTools.should_receive(:normalize_isbn).with('9780964729231').and_raise(ISBNTools::InvalidISBN)
+    
+    book = Book.new
+    book.isbn = '9780964729231'
+    book.isbn.should be_nil
+  end
+end
+
+describe Book, ".isbn_with_formatting" do
+  it "should hyphenate the book's ISBN" do
+    Book.new(:isbn => '9780964729230').isbn_with_formatting.should eql('978-0-9647-2923-0')
+  end
+end
+
+describe Book, ".lowest_price" do
+  fixtures :books
+  
+  it "should return the lowest price currently listed for the book, formatted as currency." do
+    books(:velvet_elvis).lowest_price.should eql('$10.99')
   end
 end
 

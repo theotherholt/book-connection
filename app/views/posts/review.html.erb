@@ -23,12 +23,12 @@
           <th>ISBN</th>
           <td>
             <%= book.hidden_field(:isbn) %>
-            <%= @book.try(:isbn_with_formatting) %>
+            <%= h(@book.try(:isbn_with_formatting)) %>
           </td>
         </tr>
         <tr class="even">
           <th>Title</th>
-          <td><%= @book.try(:title_with_formatting) %></td>
+          <td><%= h(truncate(@book.title, 50)) %></td>
         </tr>
         <tr class="odd">
           <th><%= @book.author_label_text %></th>

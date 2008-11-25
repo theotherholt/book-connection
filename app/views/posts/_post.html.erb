@@ -2,7 +2,7 @@
   <div class="book clearfix">
     <%= image_tag(post.book.photo.url, :width => '50') %>
     <div style="margin-left: 15px; width: 390px; float: left;">
-      <h3><%= h(post.book.try(:title_with_formatting)) %></h3>
+      <h3><%= h(truncate(post.book.title, 50)) %></h3>
       <table>
         <tbody>
           <tr>

@@ -142,15 +142,16 @@ class Book < ActiveRecord::Base
   # ==== Returns
   # String::
   #   The list of the authors of this book, separated by commas and truncated
-  #   to 60 characters.
+  #   to 50 characters.
   def authors_with_formatting
-    ActionController::Base.helpers.truncate(self.authors.join(', '), 60)
+    ActionController::Base.helpers.truncate(self.authors.join(', '), 50)
   end
   
   ##
   # ==== Returns
   # String::
-  #   The average price this book is listed for.
+  #   The average price the book is currently listed for, formatted as
+  #   currency.
   def average_price
     ActionController::Base.helpers.number_to_currency(
       Post.average(:price, :conditions => [
@@ -162,7 +163,7 @@ class Book < ActiveRecord::Base
   ##
   # ==== Returns
   # String::
-  #   The average price this book has been sold for.
+  #   The average price the book has been sold for, formatted as currency.
   def average_sold_price
     ActionController::Base.helpers.number_to_currency(
       Post.average(:price, :conditions => [
@@ -172,15 +173,15 @@ class Book < ActiveRecord::Base
   end
   
   ##
-  # Set's the isbn attribute for this book.
+  # Sets the book's ISBN.
   #
   # ==== Parameters
   # isbn<String>::
-  #   The ISBN for this book.
+  #   The book's new ISBN.
   #
   # ==== Notes
   # This method passes the given ISBN off to the ISBNTools module to be
-  # normalized. If it fails that, it sets the isbn attribute to nil.
+  # normalized. If that fails, this method sets the ISBN to nil.
   def isbn=(isbn)
     begin
       self[:isbn] = ISBNTools.normalize_isbn(isbn)
@@ -192,7 +193,7 @@ class Book < ActiveRecord::Base
   ##
   # ==== Returns
   # String::
-  #   The ISBN of this book, neatly hyphenated.
+  #   The book's ISBN, neatly hyphenated.
   def isbn_with_formatting
     ISBNTools::hyphenate_isbn13(self.isbn)
   end
@@ -200,7 +201,7 @@ class Book < ActiveRecord::Base
   ##
   # ==== Returns
   # String::
-  #   The lowest price listed for this book.
+  #   The lowest price currently listed for the book, formatted as currency.
   def lowest_price
     ActionController::Base.helpers.number_to_currency(
       Post.minimum(:price, :conditions => [
@@ -212,15 +213,7 @@ class Book < ActiveRecord::Base
   ##
   # ==== Returns
   # String::
-  #   The title of the book, truncated to 30 characters.
-  def title_with_formatting
-    ActionController::Base.helpers.truncate(self.title, 30)
-  end
-  
-  ##
-  # ==== Returns
-  # String::
-  #   The title of the book.
+  #   The book's title.
   def to_s
     self.title
   end

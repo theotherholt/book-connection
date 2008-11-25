@@ -3,7 +3,7 @@
 <% end %>
 
 <p>
-  You've just bought <%= h(@post.user) %>'s copy of "<%= h(@post.book.try(:title_with_formatting)) %>".
+  You've just bought <%= h(@post.user) %>'s copy of "<%= h(truncate(@post.book.title, 50)) %>".
   We just sent you an email with <%= h(@post.user.first_name) %>'s contact info, as well as details
   about what to do next.
 </p>
