@@ -38,7 +38,7 @@
         <th><%= label(:user, :username) %></th>
         <td>
           <%= form.text_field(:username) %>
-          <%= form.select(:alumni, { '@alumni.calvin.edu' => 1, '@calvin.edu' => 0 }) %>
+          <%= form.select(:alumni, { '@alumni.calvin.edu' => 1, '@students.calvin.edu' => 0 }) %>
           <%= error_message_on(:user, :username, 'Username ', '.') %>
         </td>
       </tr>

@@ -118,7 +118,7 @@ module New
     end
     
     def email
-      self.username + ((self.alumni?) ? '@alumni.calvin.edu' : '@calvin.edu')
+      self.username + ((self.alumni?) ? '@alumni.calvin.edu' : '@students.calvin.edu')
     end
     
     def encrypt(password)

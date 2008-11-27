@@ -144,7 +144,7 @@ class Book < ActiveRecord::Base
   #   The list of the authors of this book, separated by commas and truncated
   #   to 50 characters.
   def authors_with_formatting
-    ActionController::Base.helpers.truncate(self.authors.join(', '), 50)
+    ActionController::Base.helpers.truncate(self.authors.join(', '), :length => 50)
   end
   
   ##

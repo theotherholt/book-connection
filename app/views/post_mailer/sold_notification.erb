@@ -2,7 +2,7 @@ Hi <%= h(@seller.first_name) %>,
 
 One of your books has just been sold on the Book Connection:
 
-  Title:  <%= h(truncate(@book.title, 50)) %>
+  Title:  <%= h(truncate(@book.title, :length => 50)) %>
   Author: <%= h(@book.try(:authors_with_formatting)) %>
   ISBN:   <%= h(@book.try(:isbn_with_formatting)) %>
   Price:  <%= h(@post.try(:price_with_formatting)) %>

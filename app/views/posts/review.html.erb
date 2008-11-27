@@ -28,7 +28,7 @@
         </tr>
         <tr class="even">
           <th>Title</th>
-          <td><%= h(truncate(@book.title, 50)) %></td>
+          <td><%= h(truncate(@book.title, :length => 50)) %></td>
         </tr>
         <tr class="odd">
           <th><%= @book.author_label_text %></th>

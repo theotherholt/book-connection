@@ -37,7 +37,7 @@ class PostsController < ApplicationController # :nodoc:
     end
     
     if @post.save && @post.list!
-      flash[:notice] = "\"#{@template.truncate(@book.title, 50)}\" was added to your posted books."
+      flash[:notice] = "\"#{@template.truncate(@book.title, :length => 50)}\" was added to your posted books."
       redirect_to(posts_path)
     else
       if params[:user_created_book]
@@ -52,7 +52,7 @@ class PostsController < ApplicationController # :nodoc:
     @post = Post.find(params[:id], :include => [ :book ])
     
     if @post.update_attributes(params[:post])
-      flash[:notice] = "\"#{@template.truncate(@post.book.title, 50)}\" was successfully updated."
+      flash[:notice] = "\"#{@template.truncate(@post.book.title, :length => 50)}\" was successfully updated."
       redirect_to(posts_path)
     else
       render(:action => 'edit')
@@ -75,7 +75,7 @@ class PostsController < ApplicationController # :nodoc:
       PostMailer.deliver_purchased_notification(@post)
       PostMailer.deliver_sold_notification(@post)
       
-      flash.now[:notice] = "You just bought \"#{@template.truncate(@post.book.title, 50)}\" from #{@post.user}!"
+      flash.now[:notice] = "You just bought \"#{@template.truncate(@post.book.title, :length => 50)}\" from #{@post.user}!"
     end
   end
   
@@ -83,7 +83,7 @@ class PostsController < ApplicationController # :nodoc:
     post = Post.find(params[:id])
     post.list!
     
-    flash[:notice] = "\"#{@template.truncate(post.book.title, 50)}\" was re-listed for sale."
+    flash[:notice] = "\"#{@template.truncate(post.book.title, :length => 50)}\" was re-listed for sale."
     redirect_to(posts_path)
   end
   
@@ -91,7 +91,7 @@ class PostsController < ApplicationController # :nodoc:
     @post = Post.find(params[:id])
     @post.destroy
     
-    flash[:notice] = "\"#{@template.truncate(@post.book.title, 50)}\" was successfully removed."
+    flash[:notice] = "\"#{@template.truncate(@post.book.title, :length => 50)}\" was successfully removed."
     redirect_to(posts_path)
   end
 end

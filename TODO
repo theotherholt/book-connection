@@ -9,7 +9,6 @@ Fix::
   - Restore the "price help" feature
   - Provide a means for users to get a new activation email
   - Try and get some photos for books with a migration script
-  - Update the @calvin.edu drop down to read @students.calvin.edu
   - Confirm that the user of "@template.truncate(@book.title, 50)" in the mailer methods actually
     works
 

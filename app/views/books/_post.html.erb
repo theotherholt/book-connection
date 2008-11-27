@@ -4,7 +4,7 @@
   <tr class="<%= cycle('even', 'odd') %>">
 <% end %>
   <td style="width: 60px; text-align: center;"><%= h(post.try(:price_with_formatting)) %></td>
-  <td style="width: 154px;"><%= h(truncate(post.user.to_s, 20)) %></td>
+  <td style="width: 154px;"><%= h(truncate(post.user.to_s, :length => 20)) %></td>
   <td style="width: 40px; text-align: center;"><%= h(post.try(:edition_with_formatting)) %></td>
   <td style="width: 100px; text-align: center;"><%= h(post.try(:condition_with_formatting)) %></td>
   <td style="width: 110px;" class="buy"><%= link_to('Buy This Book', confirm_post_path(post)) %></td>

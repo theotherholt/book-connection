@@ -193,7 +193,7 @@ class User < ActiveRecord::Base
   # String::
   #   The user's Calvin email based on their username and alumni status.
   def email
-    self.username + ((self.alumni?) ? '@alumni.calvin.edu' : '@calvin.edu')
+    self.username + ((self.alumni?) ? '@alumni.calvin.edu' : '@students.calvin.edu')
   end
   
   ##
