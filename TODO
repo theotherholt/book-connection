@@ -12,5 +12,11 @@ Fix::
   - Confirm that the user of "@template.truncate(@book.title, 50)" in the mailer methods actually
     works
 
+Otherwise::
+  - See if we can remove the 404.html, 422.html, 500.html files from public
+  - See if we can remove the dispatch.* files from public
+  - Add a prompt to the search field in /books/ to the effect of "Enter an ISBN, book title, or
+    author's name..."
+
 Deploy::
   - Write a cron job for the 'rake ts:in' command!
