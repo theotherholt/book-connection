@@ -14,7 +14,7 @@
     <tfoot>
       <tr>
         <th></th>
-        <td><%= form.submit('Post &raquo;') %></td>
+        <td><%= form.submit('Post') %></td>
       </tr>
     </tfoot>
     <tbody>
@@ -28,7 +28,7 @@
         </tr>
         <tr class="even">
           <th>Title</th>
-          <td><%= h(truncate(@book.title, :length => 50)) %></td>
+          <td><%= h(truncate(@book.title)) %></td>
         </tr>
         <tr class="odd">
           <th><%= @book.author_label_text %></th>
