@@ -22,10 +22,6 @@ class AccountsController < ApplicationController # :nodoc:
     redirect_to(edit_account_path)
   end
   
-  def edit
-    @user = self.current_user
-  end
-  
   def new
     @user = User.new
   end
@@ -41,6 +37,10 @@ class AccountsController < ApplicationController # :nodoc:
     else
       render(:action => 'new')
     end
+  end
+  
+  def edit
+    @user = self.current_user
   end
   
   def update

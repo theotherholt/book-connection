@@ -16,10 +16,6 @@ class PostsController < ApplicationController # :nodoc:
     end
   end
   
-  def edit
-    @post = Post.find(params[:id], :include => { :book => :authors })
-  end
-  
   def create
     if params[:user_created_book]
       @book = Book.create(params[:book])
@@ -46,6 +42,10 @@ class PostsController < ApplicationController # :nodoc:
         render(:action => 'review')
       end
     end
+  end
+  
+  def edit
+    @post = Post.find(params[:id], :include => { :book => :authors })
   end
   
   def update
