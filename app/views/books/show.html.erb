@@ -1,6 +1,4 @@
-<% content_for(:header) do %>
-  <h2>Buy "<%= h(@template.truncate(@book.title, :length => 28)) %>"</h2>
-<% end %>
+<% title("Buy \"#{@template.truncate(@book.title, :length => 28))}\"") %>
 
 <%= image_tag(@book.photo.url, :width => '100', :style => 'margin-bottom: 20px; float: left;') %>
 

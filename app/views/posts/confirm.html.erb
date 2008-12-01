@@ -1,6 +1,4 @@
-<% content_for(:header) do %>
-  <h2>Confirm Purchase</h2>
-<% end %>
+<% title('Confirm Purchase') %>
 
 <p>
   Are you sure you want to buy "<%= h(truncate(@post.book.title, :length => 50)) %>" from

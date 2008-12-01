@@ -30,63 +30,8 @@ module ApplicationHelper # :nodoc:
     ((active?(section)) ? '<li class="active">' : '<li>') + link_to(text, path) + '</li>'
   end
   
-  def page_title
-    case params[:controller]
-      when 'posts'
-        case params[:action]
-          when 'index'   then 'View Your Posts'
-          when 'edit'    then 'Edit Your Post'
-          when 'new'     then 'Add a New Post'
-          when 'review'  then 'Edit Your New Post'
-          when 'confirm' then 'Confirm Your Purchase'
-        end
-      when 'books'
-        case params[:action]
-          when 'index'  then 'Find a Book'
-          when 'search' then 'Find a Book'
-          when 'show'   then 'Pick a Book'
-        end
-      when 'main'
-        case params[:action]
-          when 'index'   then 'Welcome'
-          when 'about'   then 'About CSX'
-          when 'terms'   then 'Terms of Use'
-          when 'privacy' then 'Privacy Policy'
-          when 'contact' then 'Contact Us'
-        end
-      when 'accounts'
-        case params[:action]
-          when 'new'  then 'Register With the Book Connection'
-          when 'edit' then 'Edit Your Account'
-        end
-      when 'sessions'
-        case params[:action]
-          when 'new' then 'Login'
-        end
-    end
-  end
-  
-  def error_messages_for(*params)
-    options = params.extract_options!.symbolize_keys
-    
-    if object = options.delete(:object)
-      objects = [object].flatten
-    else
-      objects = params.collect { |object_name| instance_variable_get("@#{object_name}") }.compact
-    end
-    
-    count = objects.inject(0) { |sum, object| sum + object.errors.count }
-    
-    unless count.zero?
-      flash.now[:errors] = "There are errors in your form."
-    end
-  end
-  
-  def text_or_error_message_on(alternate_text, object, method, prepend_text = "", append_text = "", css_class = "formError")
-    if (obj = (object.respond_to?(:errors) ? object : instance_variable_get("@#{object}"))) && errors = obj.errors.on(method)
-      content_tag("div", "#{prepend_text}#{errors.is_a?(Array) ? errors.first : errors}#{append_text}", :class => css_class)
-    else
-      alternate_text
-    end
+  def title(text)
+    content_for(:title)  { "&raquo; #{text}" }
+    content_for(:header) { "<h2>#{text}</h2>" }
   end
 end
