@@ -101,7 +101,13 @@ class Book < ActiveRecord::Base
           Book.new do |book|
             book.isbn  = normalized_isbn
             book.title = data['ItemAttributes'][0]['Title'][0]
-            book.photo = URLTempfile.new(data['MediumImage'][0]['URL'][0])
+            
+            if data['Items'][0]['Item'][0]['MediumImage']
+              if url = data['Items'][0]['Item'][0]['MediumImage'][0]['URL'][0]
+                book.photo = URLTempfile.new(url)
+              end
+            end
+            
             data['ItemAttributes'][0]['Author'].each do |author|
               book.authors.push(Author.find_or_initialize_by_name(author))
             end
@@ -216,5 +222,33 @@ class Book < ActiveRecord::Base
   #   The book's title.
   def to_s
     self.title
+  end
+  
+  ##
+  # Updates the photo assigned to this book if it finds the book's photo on
+  # Amazon. This method was added to aid in the migration to the new, Amazon-
+  # based data source.
+  def update_photo
+    response = Net::HTTP.get_response(URI.parse(
+      "http://ecs.amazonaws.com/onca/xml" +
+      "?Service=AWSECommerceService" +
+      "&AWSAccessKeyId=1BMBAZ46FKSDFTW08FR2" +
+      "&Operation=ItemLookup" +
+      "&IdType=ISBN" +
+      "&SearchIndex=Books" +
+      "&ResponseGroup=Medium" +
+      "&ItemId=#{self.isbn}"
+    ))
+    
+    if response.code == '200'
+      data = XmlSimple.xml_in(response.body)
+      
+      if data['Items'][0]['Item'][0]['MediumImage']
+        if url = data['Items'][0]['Item'][0]['MediumImage'][0]['URL'][0]
+          self.photo = URLTempfile.new(url)
+          self.save
+        end
+      end
+    end
   end
 end
