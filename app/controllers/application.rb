@@ -10,6 +10,11 @@ class ApplicationController < ActionController::Base # :nodoc:
   protect_from_forgery
   
   ##
+  # Sets up the proper hostname so that the mailer can generate a full and
+  # valid URL for the activation email.
+  before_filter { |controller| ActionMailer::Base.default_url_options[:host] = controller.request.host_with_port }
+  
+  ##
   # Filters sensitive data out of the logs.
   filter_parameter_logging :password, :password_confirmation
   

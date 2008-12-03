@@ -19,8 +19,12 @@ config.action_controller.perform_caching             = true
 
 # Setup ActionMailer to deliver mail via sendmail
 config.action_mailer.delivery_method = :sendmail
-config.action_mailer.sendmail_settings = {
-  :location       => '/usr/sbin/sendmail',
-  :arguments      => '-i -t'
+config.action_mailer.smtp_settings = {
+   :address        => "smtp.cooldomain.com",
+   :port           => 26,
+   :domain         => "calvin.edu",
+   :authentication => :login,
+   :user_name      => "rah6@calvin.edu",
+   :password       => "foobarscram8295b"
 }
 config.action_mailer.perform_deliveries = true

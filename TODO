@@ -11,6 +11,7 @@ Fix::
   - Try and get some photos for books with a migration script
   - Confirm that the user of "@template.truncate(@book.title, 50)" in the mailer methods actually
     works
+  - Change activation link in activation email so it doesn't point to gawaine.
 
 Otherwise::
   - See if we can remove the 404.html, 422.html, 500.html files from public
