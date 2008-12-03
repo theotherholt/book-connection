@@ -1,4 +1,4 @@
-<% title("Buy \"#{@template.truncate(@book.title, :length => 28))}\"") %>
+<% title("Buy \"#{truncate(@book.title, :length => 28))}\"") %>
 
 <%= image_tag(@book.photo.url, :width => '100', :style => 'margin-bottom: 20px; float: left;') %>
 
