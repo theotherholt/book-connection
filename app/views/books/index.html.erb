@@ -22,5 +22,5 @@
     <%= render(:partial => 'book', :collection => @books) %>
   </div>
   
-  <%= will_paginate(@books) %>
+  <%= will_paginate(@books) if @books.instance_of(WillPaginate::Collection) %>
 <% end %>
