@@ -86,10 +86,10 @@ module ISBNTools # :nodoc: all
     return if isbn.nil?
     clean_isbn = cleanup(isbn)
     
-    if is_valid_isbn10?(isbn)
-      return isbn10_to_isbn13(isbn)
-    elsif is_valid_isbn13?(isbn)
-      return isbn
+    if is_valid_isbn10?(clean_isbn)
+      return isbn10_to_isbn13(clean_isbn)
+    elsif is_valid_isbn13?(clean_isbn)
+      return clean_isbn
     else
       raise InvalidISBN
     end
