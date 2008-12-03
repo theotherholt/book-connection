@@ -36,7 +36,7 @@ class Book < ActiveRecord::Base
   # ==== Parameters
   # isbn<String>::
   #   The ISBN to use in the scope.
-  named_scope :with_isbn, lambda { |isbn| {:conditions => "`books`.isbn = #{ISBNTools.normalize_isbn(isbn)}"}}
+  named_scope :with_isbn, lambda { |isbn| { :conditions => "`books`.isbn = #{ISBNTools.normalize_isbn(isbn)}" }}
   
   ##
   # Orders the query results by the book titles.
