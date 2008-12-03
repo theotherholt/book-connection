@@ -243,10 +243,14 @@ class Book < ActiveRecord::Base
     if response.code == '200'
       data = XmlSimple.xml_in(response.body)
       
-      if data['Items'][0]['Item'][0]['MediumImage']
-        if url = data['Items'][0]['Item'][0]['MediumImage'][0]['URL'][0]
-          self.photo = URLTempfile.new(url)
-          self.save
+      if data = data['Items']
+        if data = data[0]['Item']
+          if medium_image = data[0]['MediumImage']
+            if medium_image_url = medium_image[0]['URL'][0]
+              self.photo = URLTempfile.new(medium_image_url)
+              self.save
+            end
+          end
         end
       end
     end
