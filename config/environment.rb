@@ -17,9 +17,6 @@ Rails::Initializer.run do |config|
   }
   
   config.load_paths << "#{RAILS_ROOT}/app/mailers"
-  
-  # This is a fix for Passenger and Rails 2.2.2.
-  config.action_controller.relative_url_root = "/books"
 end
 
 # Setup the exception notifier
