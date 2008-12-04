@@ -7,9 +7,7 @@ New Feature Ideas::
   - Pretty (possibly HTML) emails!
 
 Fix::
-  - Restore the "price help" feature
   - Provide a means for users to get a new activation email
-  - Try and get some photos for books with a migration script
   - Fix 404 and 500 error pages!
   - Improve performance of BooksController::search. Currently it issues a SQL command for every book
     to count the number of posts that book has for sale. We can improve that!
