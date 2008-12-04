@@ -45,7 +45,7 @@
         <td>
           <%= form.text_field(:price) %>
           <%= error_message_on(:post, :price, 'Price ', '.') %>
-          <%= render(:partial => 'price_help') %>
+          <%= render(:partial => 'price_help', :locals => { :book => @post.book }) %>
         </td>
       </tr>
       <tr class="odd last">

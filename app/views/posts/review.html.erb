@@ -52,6 +52,7 @@
         <td>
           <%= form.text_field(:price) %>
           <%= error_message_on(:post, :price, 'Price ', '.') %>
+          <%= render(:partial => 'posts/price_help', :locals => { :book => @book }) %>
         </td>
       </tr>
     </tbody>
