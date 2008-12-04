@@ -13,6 +13,7 @@ Fix::
   - Fix 404 and 500 error pages!
   - Improve performance of BooksController::search. Currently it issues a SQL command for every book
     to count the number of posts that book has for sale. We can improve that!
+  - Move book images to a shared directory and link in!
 
 Otherwise::
   - See if we can remove the 404.html, 422.html, 500.html files from public

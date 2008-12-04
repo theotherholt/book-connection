@@ -2,15 +2,11 @@ module ApplicationHelper # :nodoc:
   def account_menu
     content_tag(:div, { :id => 'account' }) do
       if logged_in?
-        %{
-          Logged in as #{link_to(h(self.current_user), account_path, :class => 'focus')}
-          (#{link_to('Logout', { :controller => 'sessions', :action => 'destroy' }, { :method => :delete })})
-        }
+        menu  = link_to(h(self.current_user), account_path) + ' | '
+        menu += link_to('Logout', { :controller => 'sessions', :action => 'destroy' }, { :method => :delete })
       else
-        %{
-          Welcome guest, please #{link_to('login', new_session_path, :class => 'focus')}
-          or #{link_to('register', new_account_path, :class => 'focus')}.
-        }
+        menu  = link_to('Login', new_session_path) + ' or '
+        menu += link_to('Register', new_account_path)
       end
     end
   end
