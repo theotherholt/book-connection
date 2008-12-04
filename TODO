@@ -7,13 +7,13 @@ New Feature Ideas::
   - Pretty (possibly HTML) emails!
 
 Fix::
-  - Provide a means for users to get a new activation email
-  - Fix 404 and 500 error pages!
   - Improve performance of BooksController::search. Currently it issues a SQL command for every book
     to count the number of posts that book has for sale. We can improve that!
   - Move book images to a shared directory and link in!
+  - Add more error handling for the Book::find_or_initialize_by_isbn method
 
-Otherwise::
+Eventually::
+  - Provide a means for users to get a new activation email
   - See if we can remove the 404.html, 422.html, 500.html files from public
   - See if we can remove the dispatch.* files from public
   - Add a prompt to the search field in /books/ to the effect of "Enter an ISBN, book title, or
