@@ -51,7 +51,7 @@ namespace :deploy do
   
   desc "Symlink shared configs and folders on each release."
   task :symlink_shared do
-    #run "rm -rf #{release_path}/public/images/books"
+    run "rm -rf #{release_path}/public/images/books"
     run "ln -nfs #{shared_path}/public/images/books #{release_path}/public/images/books"
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
