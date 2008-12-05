@@ -26,7 +26,7 @@ class SessionsController < ApplicationController # :nodoc:
         
         flash[:notice] = %{
           We just emailed your new password to your address, #{user.email}. Check your
-          <a href="http://webmail.calvin.edu/">webmail</a> to retrieve it.
+          #{@template.link_to('webmail', 'http://www.calvin.edu/go/studentmail/')} to retrieve it.
         }
         redirect_to(new_session_path)
       else
