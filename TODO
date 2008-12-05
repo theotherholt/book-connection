@@ -5,10 +5,16 @@ New Feature Ideas::
   - iPhone integration
   - Report an unresponsive user!
   - Pretty (possibly HTML) emails!
+  - Ability to tag books with a given course or subject
+
+Search::
+  - I decided to break this one out into its own issue:
+      We need to improve the performance of BooksController::search. When rendering each book it
+      currently re-queries each book's posts for sale count. We could improve this by adding another
+      counter column for the posts for sale count, and then having this column incremented or
+      decremented whenever a user lists, unlists, or sells a book.
 
 Fix::
-  - Improve performance of BooksController::search. Currently it issues a SQL command for every book
-    to count the number of posts that book has for sale. We can improve that!
   - Move book images to a shared directory and link in!
   - Add more error handling for the Book::find_or_initialize_by_isbn method
 
