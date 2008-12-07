@@ -14,12 +14,14 @@ class User < ActiveRecord::Base
   validates_presence_of     :password,                   :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
+  validates_format_of       :alternate_email, :with => Constants::EMAIL_FORMAT, :allow_blank => true
   
   #--
   # Accessors
   #++
   attr_accessor   :password, :password_confirmation
-  attr_accessible :first_name, :last_name, :username, :phone, :password, :password_confirmation, :alumni
+  attr_accessible :first_name, :last_name, :username, :phone
+  attr_accessible :password, :password_confirmation, :alumni, :alternate_email
   
   #--
   # Relations
@@ -191,9 +193,15 @@ class User < ActiveRecord::Base
   ##
   # ==== Returns
   # String::
-  #   The user's Calvin email based on their username and alumni status.
+  #   The user's email. If they specify an alternate email, that is returned.
+  #   Otherwise, their Calvin email is returned based on their username and
+  #   alumni status.
   def email
-    self.username + ((self.alumni?) ? '@alumni.calvin.edu' : '@students.calvin.edu')
+    if self.alternate_email.blank?
+      self.username + ((self.alumni?) ? '@alumni.calvin.edu' : '@students.calvin.edu')
+    else
+      self.alternate_email
+    end
   end
   
   ##

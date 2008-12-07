@@ -35,7 +35,21 @@
           <%= form.select(:alumni, [['@students.calvin.edu', 0 ], [ '@alumni.calvin.edu', 1 ]]) %>
         </td>
       </tr>
-      <tr class="even last">
+      <tr class="even">
+        <th>
+          <%= label(:user, :alternate_email) %>
+          <span>(optional)</span>
+        </th>
+        <td>
+          <%= form.text_field(:alternate_email) %>
+          <%= error_message_on(:user, :alternate_email, 'Alternate email ', '.') %>
+          <em style="margin-top: 5px; display: block;">
+            If this is set, we will use it instead of your Calvin email when contacting you. Due
+            to recent changes in Calvin's mail system. Alumni should specify an alternate email.
+          </em>
+        </td>
+      </tr>
+      <tr class="odd last">
         <th>
           <%= label(:user, :phone) %>
           <span>(optional)</span>
