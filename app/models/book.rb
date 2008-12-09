@@ -96,24 +96,25 @@ class Book < ActiveRecord::Base
         
         if response.code == '200'
           data = XmlSimple.xml_in(response.body)
-          data = data['Items'][0]['Item'][0]
           
           Book.new do |book|
             book.isbn  = normalized_isbn
-            book.title = data['ItemAttributes'][0]['Title'][0]
             
-            if data = data['Items']
-              if data = data[0]['Item']
-                if medium_image = data[0]['MediumImage']
-                  if medium_image_url = medium_image[0]['URL'][0]
-                    self.photo = URLTempfile.new(medium_image_url)
-                  end
-                end
+            begin
+              item = data['Items'][0]['Item'][0]
+              book.title = item['ItemAttributes'][0]['Title'][0]
+              
+              begin
+                book.photo = URLTempfile.new(item['MediumImage'][0]['URL'][0])
+              rescue
+                # No photo found...
               end
-            end
-            
-            data['ItemAttributes'][0]['Author'].each do |author|
-              book.authors.push(Author.find_or_initialize_by_name(author))
+              
+              item['ItemAttributes'][0]['Author'].each do |author|
+                book.authors.push(Author.find_or_initialize_by_name(author))
+              end
+            rescue
+              raise LookupFailedError
             end
           end
         else
@@ -247,15 +248,13 @@ class Book < ActiveRecord::Base
     if response.code == '200'
       data = XmlSimple.xml_in(response.body)
       
-      if data = data['Items']
-        if data = data[0]['Item']
-          if medium_image = data[0]['MediumImage']
-            if medium_image_url = medium_image[0]['URL'][0]
-              self.photo = URLTempfile.new(medium_image_url)
-              self.save
-            end
-          end
-        end
+      begin
+        item = data['Items'][0]['Item'][0]
+        
+        self.photo = URLTempfile.new(data['Items'][0]['Item'][0]['MediumImage'][0]['URL'][0])
+        self.save
+      rescue
+        # No photo found...
       end
     end
   end
