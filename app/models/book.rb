@@ -102,9 +102,13 @@ class Book < ActiveRecord::Base
             book.isbn  = normalized_isbn
             book.title = data['ItemAttributes'][0]['Title'][0]
             
-            if data['Items'][0]['Item'][0]['MediumImage']
-              if url = data['Items'][0]['Item'][0]['MediumImage'][0]['URL'][0]
-                book.photo = URLTempfile.new(url)
+            if data = data['Items']
+              if data = data[0]['Item']
+                if medium_image = data[0]['MediumImage']
+                  if medium_image_url = medium_image[0]['URL'][0]
+                    self.photo = URLTempfile.new(medium_image_url)
+                  end
+                end
               end
             end
             
