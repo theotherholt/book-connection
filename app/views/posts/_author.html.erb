@@ -1,0 +1,6 @@
+<div style="margin-bottom: 5px;">
+  <% fields_for('book[author_attributes][]', author) do |fields| %>
+    <%= fields.text_field(:name) %>
+    <%= link_to_function(image_tag('remove.png', { :style => 'vertical-align: middle' }), "this.up().remove()") %>
+  <% end %>
+</div>

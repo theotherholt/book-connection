@@ -9,6 +9,7 @@ class PostsController < ApplicationController # :nodoc:
       @book = Book.find_or_initialize_by_isbn(params[:book][:isbn])
     rescue Book::LookupFailedError
       @book = Book.new(:isbn => params[:book][:isbn])
+      @book.authors.build
       render(:action => 'create')
     rescue ISBNTools::InvalidISBN
       flash[:warning] = $!.to_s

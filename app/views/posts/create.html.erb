@@ -38,7 +38,7 @@
         <th>Author(s)</th>
         <td>
           <div id="authors">
-            <%= render(:partial => 'author_field', :collection => authors) %>
+            <%= render(:partial => 'author', :collection => @book.authors) %>
           </div>
           <%= add_author_link %>
         </td>
