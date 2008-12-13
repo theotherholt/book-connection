@@ -15,3 +15,26 @@ function remember_password() {
     new Effect.BlindDown('password', { duration: 0.15 });
   }, 350);
 }
+
+function setup_search_prompt() {
+  var search_field  = $('query');
+  var default_value = "Enter an ISBN, book title, or author's name...";
+  
+  if (search_field.value == "" || search_field.value == default_value) {
+    search_field.value = default_value;
+    search_field.style.color = "#666666";
+  }
+}
+
+function toggle_search_prompt() {
+  var search_field = $('query');
+  var default_value = "Enter an ISBN, book title, or author's name...";
+  
+  if (search_field.value == "") {
+    search_field.value = default_value;
+    search_field.style.color = "#666666";
+  } else if (search_field.value == default_value) {
+    search_field.value = "";
+    search_field.style.color = "#000000";
+  }
+}

@@ -24,3 +24,13 @@
   
   <%= will_paginate(@books) if @books.instance_of?(WillPaginate::Collection) %>
 <% end %>
+
+<script type="text/javascript">
+//<![CDATA[
+  Event.observe(window, 'load', function() {
+    setup_search_prompt();
+    $('query').observe('focus', function(event) { toggle_search_prompt(); });
+    $('query').observe('blur',  function(event) { toggle_search_prompt(); });
+  });
+//]]>
+</script>
