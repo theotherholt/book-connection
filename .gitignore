@@ -5,3 +5,4 @@ log/*.pid
 config/database.yml
 config/*.sphinx.conf
 public/images/books/*
+tmp/restart.txt
