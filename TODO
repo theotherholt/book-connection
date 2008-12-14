@@ -7,6 +7,9 @@ New Feature Ideas::
   - Pretty (possibly HTML) emails
   - Ability to tag books with a given course or subject
 
+Critical::
+  - Fix the sites visuals in IE!!!
+
 Search::
   - I decided to break this one out into its own issue:
       We need to improve the performance of BooksController::search. When rendering each book it

@@ -5,28 +5,33 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>Book Connection <%= yield :title %></title>
-    <%= stylesheet_link_tag('reset', 'application') %>
+    <%= stylesheet_link_tag('reset', 'test') %>
     <%= javascript_include_tag('prototype', 'effects', 'application') %>
   </head>
 <body>
 
-<div id="site-wrapper">
+<div id="wrapper">
   <div id="navigation" class="clearfix">
-    <h1><%= link_to(image_tag('logo.png', :alt => '[logo]') + 'Book Connection', root_path) %></h1>
+    <h1>
+      <a href="<%= root_path %>">
+        <!--[if gt IE 6]><img alt="" src="/books/images/logo.png" width="50" /><![endif]-->
+        Book Connection
+      </a>
+    </h1>
     <ul>
       <%= link_for('Buy Books', 'buy', books_path) %>
       <%= link_for('Sell Books', 'view', posts_path) %>
     </ul>
   </div>
-  <div id="header">
-    <div class="clearfix">
+  <div id="header-wrapper">
+    <div id="header">
       <%= yield :header %>
       <%= account_menu %>
     </div>
   </div>
   <%= render(:partial => 'shared/flash', :locals => { :flash => flash }) %>
-  <div id="body">
-    <div class="clearfix">
+  <div id="body-wrapper">
+    <div id="body">
       <%= yield :layout %>
     </div>
   </div>
