@@ -1,54 +1,53 @@
-<div class="book-wrapper-<%= cycle('odd', 'even') %>">
-  <div class="book clearfix">
-    <%= image_tag(post.book.photo.url, :width => '50') %>
-    <div style="margin-left: 15px; width: 390px; float: left;">
-      <h3><%= h(truncate(post.book.title, :length => 50)) %></h3>
-      <table>
-        <tbody>
-          <tr>
-            <th>ISBN</th>
-            <td><%= h(post.book.try(:isbn_with_formatting)) %></td>
-          </tr>
-          <tr>
-            <th><%= post.book.author_label_text %></th>
-            <td><%= h(post.book.try(:authors_with_formatting)) %></td>
-          </tr>
-          <tr>
-            <th>Edition</th>
-            <td><%= h(post.try(:edition_with_formatting)) %></td>
-          </tr>
-          <tr>
-            <th>Price</th>
-            <td><%= h(post.try(:price_with_formatting)) %></td>
-          </tr>
-          <tr>
-            <th>Status</th>
-            <td><%= h(post.try(:state_with_formatting)) %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="margin-left: 15px; width: 170px; float: left;">
-      <% if !post.sold? %>
-      <ul>
-        <li class="edit"><%= link_to('Edit This Book', edit_post_path(post)) %></li>
-        <li class="remove">
-          <%= link_to('Remove This Book', destroy_post_path(post), {
-              :confirm => "Are you sure you want to remove \"#{post.book.try(:title)}\"?",
-              :method  => :delete
-          }) %>
-        </li>
-      </ul>
-      <% elsif post.sold? %>
-      <ul>
-        <li class="relist">
-          <%= link_to('Mark As Not Sold', relist_post_path(post), {
-            :confirm => "This will re-list \"#{post.book.try(:title)}\". Are you sure you want to do this?",
-            :method => :post
-          }) %>
-        </li>
-      </ul>
-      <% end %>
-    </div>
+<div class="book-<%= cycle('odd', 'even') %>">
+  <%= image_tag(post.book.photo.url, :width => '50') %>
+  <div class="info">
+    <h3><%= h(truncate(post.book.title, :length => 50)) %></h3>
+    <table style="margin-bottom: 0;">
+      <tbody>
+        <tr>
+          <th>ISBN</th>
+          <td><%= h(post.book.try(:isbn_with_formatting)) %></td>
+        </tr>
+        <tr>
+          <th><%= post.book.author_label_text %></th>
+          <td><%= h(post.book.try(:authors_with_formatting)) %></td>
+        </tr>
+        <tr>
+          <th>Edition</th>
+          <td><%= h(post.try(:edition_with_formatting)) %></td>
+        </tr>
+        <tr>
+          <th>Price</th>
+          <td><%= h(post.try(:price_with_formatting)) %></td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td><%= h(post.try(:state_with_formatting)) %></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  <div class="links">
+    <% if !post.sold? %>
+    <ul>
+      <li class="edit"><%= link_to('Edit This Book', edit_post_path(post)) %></li>
+      <li class="remove">
+        <%= link_to('Remove This Book', destroy_post_path(post), {
+            :confirm => "Are you sure you want to remove \"#{post.book.try(:title)}\"?",
+            :method  => :delete
+        }) %>
+      </li>
+    </ul>
+    <% elsif post.sold? %>
+    <ul>
+      <li class="relist">
+        <%= link_to('Mark As Not Sold', relist_post_path(post), {
+          :confirm => "This will re-list \"#{post.book.try(:title)}\". Are you sure you want to do this?",
+          :method => :post
+        }) %>
+      </li>
+    </ul>
+    <% end %>
+  </div>
+  <div style="height: 1px; clear: both;"><!-- Rudimentary Clearfix --></div>
 </div>

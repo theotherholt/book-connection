@@ -1,27 +1,26 @@
 <% unless book.posts.for_sale.empty? %>
-  <div class="book-wrapper-<%= cycle('odd', 'even') %>">
-    <div class="book clearfix">
-      <%= link_to(image_tag(book.photo.url, :width => '50'), book_path(book)) %>
-      <div style="margin-left: 15px; width: 390px; float: left;">
-        <h3><%= link_to(h(book.title), book_path(book)) %></h3>
-        <table class="compact">
-          <tbody>
-            <tr>
-              <th>ISBN</th>
-              <td><%= h(book.try(:isbn_with_formatting)) %></td>
-            </tr>
-            <tr>
-              <th><%= book.author_label_text %></th>
-              <td><%= h(book.try(:authors_with_formatting)) %></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="margin-left: 15px; width: 170px; float: left;">
-        <ul>
-          <li class="select"><%= link_to('Select this Book', book_path(book)) %></li>
-        </ul>
-      </div>
+  <div class="book-<%= cycle('odd', 'even') %>">
+    <%= link_to(image_tag(book.photo.url, :width => '50'), book_path(book)) %>
+    <div class="info">
+      <h3><%= link_to(h(book.title), book_path(book)) %></h3>
+      <table style="margin-bottom: 0;">
+        <tbody>
+          <tr>
+            <th>ISBN</th>
+            <td><%= h(book.try(:isbn_with_formatting)) %></td>
+          </tr>
+          <tr>
+            <th><%= book.author_label_text %></th>
+            <td><%= h(book.try(:authors_with_formatting)) %></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <div class="links">
+      <ul>
+        <li class="select"><%= link_to('Select this Book', book_path(book)) %></li>
+      </ul>
+    </div>
+    <div style="height: 1px; clear: both;"><!-- Rudimentary Clearfix --></div>
   </div>
 <% end %>
