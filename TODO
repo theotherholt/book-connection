@@ -15,9 +15,9 @@ Search::
       decremented whenever a user lists, unlists, or sells a book.
 
 Fix::
-  - Add more error handling for the Book::find_or_initialize_by_isbn method
-  - The form of the method error_message_on has changed in Rails 2.2.2...fix it
+  - Add more error handling for the Book::find_or_initialize_by_isbn method.
+  - The form of the method error_message_on has changed in Rails 2.2.2...fix it.
   - Make PNGs work in IE.
 
 Eventually::
-  - Provide a means for users to get a new activation email
+  - Provide a means for users to get a new activation email.

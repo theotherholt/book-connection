@@ -7,6 +7,9 @@
     <title>Book Connection <%= yield :title %></title>
     <%= stylesheet_link_tag('reset', 'application') %>
     <%= javascript_include_tag('prototype', 'effects', 'application') %>
+    <!--[if lte IE 6]>
+      <%= javascript_include_tag('slight') %>
+    <![endif]-->
   </head>
 <body>
 
