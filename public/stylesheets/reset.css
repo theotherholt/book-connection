@@ -82,25 +82,3 @@ pre, code, kbd, samp, tt {
   *font-size: 108%;
   line-height: 100%;
 }
-
-/* -----| Clearfix Hack |----------------------------------------- */
-.clearfix:after {
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-}
-
-.clearfix {
-  display: inline-block;
-}
-
-html[xmlns] .clearfix {
-  display: block;
-}
-
-* html .clearfix {
-  height: 1%;
-}

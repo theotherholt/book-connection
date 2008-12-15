@@ -21,7 +21,7 @@ div#navigation {
 div#navigation h1 {
   font-size: 310%;
   position: absolute;
-  left: 0;
+  left: 5px;
   bottom: 5px;
 }
 
@@ -31,7 +31,6 @@ div#navigation h1 a {
 }
 
 div#navigation h1 a img {
-  padding-right: 5px;
   vertical-align: bottom;
 }
 
