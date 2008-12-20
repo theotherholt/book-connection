@@ -34,6 +34,10 @@ class ContactForm < ActiveForm
     (self.email.blank?) ? 'N/A' : self.email
   end
   
+  def email_for_sender_field
+    (self.email.blank?) ? 'The Book Connection Admin <no-reply@csx.calvin.edu>' : self.email
+  end
+  
   ##
   # ==== Returns
   # String::

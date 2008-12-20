@@ -10,7 +10,7 @@
   <table class="striped" style="margin-bottom: 0">
     <tbody>
       <tr class="odd">
-        <th><%= label(:user, :username) %></th>
+        <th><%= form.label(:username) %></th>
         <td><%= form.text_field(:username, { :tabindex => 1 }) %></td>
       </tr>
     </tbody>
@@ -29,7 +29,7 @@
       </tfoot>
       <tbody>
         <tr class="even last">
-          <th><%= label(:user, :password) %></th>
+          <th><%= form.label(:password) %></th>
           <td>
             <%= form.password_field(:password, { :tabindex => 1 }) %>
             <%= link_to_function('Forgot your password?', 'forgot_password()') %>

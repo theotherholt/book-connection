@@ -8,7 +8,7 @@ class ContactFormMailer < ActionMailer::Base # :nodoc:
   protected
     def setup_email(contact)
       @recipients     = 'Ryan Holt <ryan@theotherholt.com>'
-      @from           = 'The Book Connection Admin <no-reply@csx.calvin.edu>'
+      @from           = contact.email_for_sender_field
       @subject        = 'Book Connection - '
       @sent_on        = Time.now
       @body[:contact] = contact

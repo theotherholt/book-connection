@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource  :account,
                 :only => [ 'new', 'create', 'edit', 'update', 'show' ]
   map.resource  :session,
-                :only => [ 'new', 'create', 'destroy' ]
+                :only => [ 'index', 'new', 'create', 'destroy' ]
   map.resources :posts,
                 :only => [ 'index', 'new', 'create', 'edit', 'update', 'destroy' ],
                 :new => {

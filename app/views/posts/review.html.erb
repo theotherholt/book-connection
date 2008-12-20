@@ -35,23 +35,23 @@
       <% end %>
       <tr class="even">
         <th>
-          <%= label(:post, :edition) %>
+          <%= form.label(:edition) %>
           <span>(optional)</span>
         </th>
         <td>
           <%= form.text_field(:edition) %>
-          <%= error_message_on(:post, :edition, 'Edition ', '.') %>
+          <%= error_message_on(:post, :edition, :prepend_text => 'Edition ') %>
         </td>
       </tr>
       <tr class="odd">
-        <th><%= label(:post, :condition_id) %></th>
+        <th><%= form.label(:condition_id) %></th>
         <td><%= form.select(:condition_id, Constants::CONDITION) %></td>
       </tr>
       <tr class="even last">
-        <th><%= label(:post, :price) %></th>
+        <th><%= form.label(:price) %></th>
         <td>
           <%= form.text_field(:price) %>
-          <%= error_message_on(:post, :price, 'Price ', '.') %>
+          <%= error_message_on(:post, :price, :prepend_text => 'Price ') %>
           <%= render(:partial => 'posts/price_help', :locals => { :book => @book }) %>
         </td>
       </tr>

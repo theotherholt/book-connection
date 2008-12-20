@@ -15,7 +15,7 @@
     </tfoot>
     <tbody>
       <tr class="odd last">
-        <th><%= label(:book, :isbn, 'ISBN') %></th>
+        <th><%= form.label(:isbn, 'ISBN') %></th>
         <td>
           <%= form.text_field(:isbn) %>
           <p id="valid_isbn" style="display: none;">That looks like a valid ISBN!</p>

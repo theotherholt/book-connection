@@ -14,21 +14,21 @@
     </tfoot>
     <tbody>
       <tr class="odd">
-        <th><%= label(:user, :first_name) %></th>
+        <th><%= form.label(:first_name) %></th>
         <td>
           <%= form.text_field(:first_name) %>
-          <%= error_message_on(:user, :first_name, 'First name ', '.') %>
+          <%= error_message_on(:user, :first_name, :prepend_text => 'First name ') %>
         </td>
       </tr>
       <tr class="even">
-        <th><%= label(:user, :last_name) %></th>
+        <th><%= form.label(:last_name) %></th>
         <td>
           <%= form.text_field(:last_name) %>
-          <%= error_message_on(:user, :last_name, 'Last name ', '.') %>
+          <%= error_message_on(:user, :last_name, :prepend_text => 'Last name ') %>
         </td>
       </tr>
       <tr class="odd">
-        <th><%= label(:user, :alumni, 'Email') %></th>
+        <th><%= form.label(:alumni, 'Email') %></th>
         <td>
           <%= @user.username %>
           <%= form.hidden_field(:username) %>
@@ -37,12 +37,12 @@
       </tr>
       <tr class="even">
         <th>
-          <%= label(:user, :alternate_email) %>
+          <%= form.label(:alternate_email) %>
           <span>(optional)</span>
         </th>
         <td>
           <%= form.text_field(:alternate_email) %>
-          <%= error_message_on(:user, :alternate_email, 'Alternate email ', '.') %>
+          <%= error_message_on(:user, :alternate_email, :prepend_text => 'Alternate email ') %>
           <em style="margin-top: 5px; display: block;">
             If this is set, we will use it instead of your Calvin email when contacting you. Due
             to recent changes in Calvin's mail system. Alumni should specify an alternate email.
@@ -51,12 +51,12 @@
       </tr>
       <tr class="odd last">
         <th>
-          <%= label(:user, :phone) %>
+          <%= form.label(:phone) %>
           <span>(optional)</span>
         </th>
         <td>
           <%= form.text_field(:phone) %>
-          <%= error_message_on(:user, :phone, 'Phone number ', '.') %>
+          <%= error_message_on(:user, :phone, :prepend_text => 'Phone number ') %>
         </td>
       </tr>
     </tbody>
@@ -75,17 +75,17 @@
     </tfoot>
     <tbody>
       <tr class="odd">
-        <th><%= label(:user, :password) %></th>
+        <th><%= form.label(:password) %></th>
         <td>
           <%= form.password_field(:password) %>
-          <%= text_or_error_message_on('<em>(must be at least 4 characters long)</em>', :user, :password, 'Password ', '.') %>
+          <%= text_or_error_message_on('<em>(must be at least 4 characters long)</em>', :user, :password, :prepend_text => 'Password ') %>
         </td>
       </tr>
       <tr class="even last">
-        <th><%= label(:user, :password_confirmation, 'Confirm') %></th>
+        <th><%= form.label(:password_confirmation, 'Confirm') %></th>
         <td>
           <%= form.password_field(:password_confirmation) %>
-          <%= error_message_on(:user, :password_confirmation, 'Confirmation ', '.') %>
+          <%= error_message_on(:user, :password_confirmation, :prepend_text =>  'Confirmation ') %>
         </td>
       </tr>
     </tbody>

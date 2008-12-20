@@ -8,12 +8,11 @@ New Feature Ideas::
   - Ability to tag books with a given course or subject
 
 Critical::
-  - Put up signposts at all the locations a user might go looking for the Book Connection:
-      csx.calvin.edu/
-      gawaine.csx.calvin.edu/
-    and have these point to the correct book connection.
   - Allow users to send password resets to alternate email accounts (and also login with alternate
     email accounts). In short, make alternate email accounts viable!
+
+Soon::
+  - Send out an email to all Book Connection users to inform them of the new site location.
 
 Search::
   - I decided to break this one out into its own issue:
@@ -23,8 +22,6 @@ Search::
       decremented whenever a user lists, unlists, or sells a book.
 
 Fix::
-  - Add more error handling for the Book::find_or_initialize_by_isbn method.
-  - The form of the method error_message_on has changed in Rails 2.2.2...fix it.
   - Make PNGs work in IE. (Test out the site in IE 6 to see if SuperSlight fixed this)
   - Spruce up the home page!
 

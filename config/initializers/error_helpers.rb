@@ -15,11 +15,12 @@ module ErrorHelpers
     end
   end
   
-  def text_or_error_message_on(alternate_text, object, method, prepend_text = "", append_text = "", css_class = "formError")
-    if (obj = (object.respond_to?(:errors) ? object : instance_variable_get("@#{object}"))) && errors = obj.errors.on(method)
-      content_tag("div", "#{prepend_text}#{errors.is_a?(Array) ? errors.first : errors}#{append_text}", :class => css_class)
-    else
+  def text_or_error_message_on(alternate_text, object, method, *args)
+    result = error_message_on(object, method, *args)
+    if result.blank?
       alternate_text
+    else
+      result
     end
   end
 end

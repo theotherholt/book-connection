@@ -1,6 +1,10 @@
 class SessionsController < ApplicationController # :nodoc:
   skip_before_filter :require_login
   
+  def index
+    redirect_to(new_session_path)
+  end
+  
   def create
     if params[:commit].include?('Login')
       begin
