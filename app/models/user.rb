@@ -83,18 +83,19 @@ class User < ActiveRecord::Base
     # username<String>::
     #   The user's webmail username.
     # password<String>::
-    #   The user's password.
+    #   The user's plaintext password.
     #
     # ==== Returns
     # User::
-    #   The user object for the given username, given a valid username and password
-    #   combination, otherwise nil.
+    #   The user's User object if given a valid username and password,
+    #   otherwise nil.
     #
     # ==== Raises
     # AccountNotVerified::
     #   If the user has not yet verified their account (i.e.: user.active? returns false).
     def authenticate(username, password)
       user = self.find_by_username(username)
+      
       unless user.nil?
         if user.active?
           if user.authenticated?(password)
@@ -177,6 +178,14 @@ class User < ActiveRecord::Base
     else
       self.alternate_email
     end
+  end
+  
+  ##
+  # ==== Returns
+  # String::
+  #   The user's name and email address formatted as: User Name <user@example.com>.
+  def email_with_name
+    "#{self.name} <#{self.email}>"
   end
   
   ##
