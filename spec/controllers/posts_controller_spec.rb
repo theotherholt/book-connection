@@ -128,6 +128,10 @@ describe PostsController do
         @book = mock_model(Book)
         Book.should_receive(:new).with(:isbn => '9780310273081').and_return(@book)
         
+        authors = []
+        @book.stub!(:authors).and_return(authors)
+        authors.stub!(:build).and_return([ mock_model(Author) ])
+        
         post('review', :book => { :isbn => '9780310273081' })
       end
       

@@ -2,15 +2,23 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Post, "validations" do
   it do
+    Post.new.should validate_presence_of(:user_id)
+  end
+  
+  it do
+    Post.new.should validate_presence_of(:book_id)
+  end
+  
+  it do
+    Post.new.should validate_presence_of(:condition_id)
+  end
+  
+  it do
     Post.new.should validate_presence_of(:price)
   end
   
   it do
     Post.new.should validate_numericality_of(:price)
-  end
-  
-  it do
-    Post.new.should validate_presence_of(:condition_id)
   end
   
   it do
@@ -20,11 +28,11 @@ end
 
 describe Post, "associations" do
   it do
-    Post.new.should belong_to(:book)
+    Post.new.should belong_to(:user)
   end
   
   it do
-    Post.new.should belong_to(:user)
+    Post.new.should belong_to(:book)
   end
   
   it do
@@ -33,20 +41,21 @@ describe Post, "associations" do
 end
 
 describe Post, "ordered_by_title scope" do
-  fixtures :users, :posts
+  fixtures :books, :posts
   
-  it "should return the list of posts ordered by their associated book's title" do
+  it "should return a list of posts ordered by their associated book's title" do
     ordered_posts = [
       posts(:ryan_holt_blue_like_jazz),
       posts(:ryan_holt_sex_god),
       posts(:ryan_holt_velvet_elvis)
     ]
-    Post.ordered_by_title.find_all_by_user_id(users(:ryan_holt).id).should eql(ordered_posts)
+    
+    Post.ordered_by_title.should eql(ordered_posts)
   end
 end
 
 describe Post, "ordered_by_price scope" do
-  fixtures :users, :posts
+  fixtures :posts
   
   it "should return a lists of posts ordered by their price" do
     ordered_posts = [
@@ -54,19 +63,21 @@ describe Post, "ordered_by_price scope" do
       posts(:ryan_holt_blue_like_jazz),
       posts(:ryan_holt_velvet_elvis)
     ]
-    Post.ordered_by_price.find_all_by_user_id(users(:ryan_holt).id).should eql(ordered_posts)
+    
+    Post.ordered_by_price.should eql(ordered_posts)
   end
 end
 
 describe Post, "for_sale scope" do
-  fixtures :users, :posts
+  fixtures :posts
   
   it "should return a list of posts that are for sale" do
     posts_for_sale = [
       posts(:ryan_holt_blue_like_jazz),
       posts(:ryan_holt_velvet_elvis)
     ]
-    Post.for_sale.find_all_by_user_id(users(:ryan_holt).id).should eql(posts_for_sale)
+    
+    Post.for_sale.should eql(posts_for_sale)
   end
 end
 
@@ -106,12 +117,34 @@ describe Post, ".edition=" do
   it "should clean up the edition if it contains valid number" do
     post = Post.new(:edition => '1st')
     post.should have(:no).errors_on(:edition)
-    post.edition.should eql(1)
+    post.edition.should == 1
+  end
+  
+  it "should let Rails handle error checking if the edition does not contain a valid number" do
+    post = Post.new(:edition => 'not a number')
+    post.should have(1).error_on(:edition)
+  end
+end
+
+describe Post, ".list!" do
+  fixtures :posts
+  
+  before do
+    @post = posts(:ryan_holt_velvet_elvis)
+    @post.list!
+  end
+  
+  it "should set sold_at to nil" do
+    @post.sold_at.should be_nil
+  end
+  
+  it "should set the buyer to nil" do
+    @post.buyer.should be_nil
   end
 end
 
 describe Post, ".price_with_formatting" do
-  it "should return a formatted price if a valid price is set" do
+  it "should return the price formatted as currency" do
     Post.new(:price => 15.99).price_with_formatting.should eql('$15.99')
   end
 end
@@ -122,9 +155,42 @@ describe Post, ".price=" do
     post.should have(:no).errors_on(:price)
     post.price.should eql(15.99)
   end
+  
+  it "should let Rails handle error checking if the price does not contain a valid number" do
+    post = Post.new(:price => 'not a number')
+    post.should have(1).error_on(:price)
+  end
 end
 
 describe Post, ".purchase" do
+  fixtures :users
+  
+  before do
+    @post = Post.new
+  end
+  
+  it "should raise PostNotAvailable if the post has already been sold" do
+    @post.sold_at = Time.now
+    lambda { @post.purchase(:user) }.should raise_error(Post::PostNotAvailable)
+  end
+  
+  it "should set the buyer" do
+    lambda { @post.purchase(users(:ryan_holt)) }.should change(@post, :buyer).to(users(:ryan_holt))
+  end
+  
+  it "should set the sold_at time" do
+    lambda { @post.purchase(users(:ryan_holt)) }.should change(@post, :sold_at)
+  end
+end
+
+describe Post, ".sold?" do
+  it "should be true if sold_at is set" do
+    Post.new(:sold_at => Time.now).sold?.should be_true
+  end
+  
+  it "should be false if sold_at is nil" do
+    Post.new(:sold_at => nil).sold?.should be_false
+  end
 end
 
 describe Post, ".state_with_formatting" do

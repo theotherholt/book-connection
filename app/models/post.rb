@@ -27,19 +27,15 @@ class Post < ActiveRecord::Base
   # Returns the set of posts ordered by their book's title.
   named_scope :ordered_by_title,
               :include => :book,
-              :order   => '`books`.title ASC'
-  
-  ##
-  # Returns the set of posts ordered by their state.
-  named_scope :ordered_by_state, :order => '`posts`.state ASC'
+              :order   => 'books.title ASC'
   
   ##
   # Returns the set of posts ordered by their price.
-  named_scope :ordered_by_price, :order => '`posts`.price ASC'
+  named_scope :ordered_by_price, :order => 'posts.price ASC'
   
   ##
-  # Returns the set of posts that are in the 'for_sale' state.
-  named_scope :for_sale, :conditions => "`posts`.state = 'for_sale'"
+  # Returns the set of posts that are currently for sale.
+  named_scope :for_sale, :conditions => 'posts.sold_at IS NULL'
   
   ##
   # ==== Returns
@@ -88,8 +84,8 @@ class Post < ActiveRecord::Base
   end
   
   def list!
-    self.for_sale = nil
-    self.buyer    = nil
+    self.sold_at = nil
+    self.buyer   = nil
     self.save
   end
   

@@ -5,9 +5,8 @@ ryan_holt:
   phone: 5087174231
   crypted_password: <%= User.encrypt('password', 'salt') %>
   salt: salt
-  activation_code: <%= User.random_hash(8) %>
-  state: active
+  activation_code: <%= User.random_hash(10) %>
   activated_at: <%= Time.now %>
-  deleted_at: nil
   last_login_at: nil
   alumni: false
+  alternate_email: ryan@theotherholt.com

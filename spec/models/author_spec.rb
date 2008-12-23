@@ -13,7 +13,9 @@ describe Author, "associations" do
 end
 
 describe Author, ".to_s" do
+  fixtures :authors
+  
   it "should return the author's name" do
-    Author.new(:name => 'Rob Bell').to_s.should eql('Rob Bell')
+    authors(:rob_bell).to_s.should eql('Rob Bell')
   end
 end

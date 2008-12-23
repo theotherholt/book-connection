@@ -26,16 +26,38 @@ end
 
 describe Book, ".with_isbn scope" do
   it "should limit the result set to books with a given ISBN" do
-    Book.with_isbn('9780964729230').proxy_options.should == {:conditions => "`books`.isbn = 9780964729230"}
+    Book.with_isbn('9780964729230').proxy_options.should == {:conditions => "books.isbn = 9780964729230"}
+  end
+  
+  it "should call ISBNTools.normalize_isbn" do
+    ISBNTools.should_receive(:normalize_isbn).with('9780964729230').and_return('9780964729230')
+    Book.find_by_isbn('9780964729230')
   end
 end
 
 describe Book, ".ordered_by_title scope" do
-  it "should order the result set by the book's title" do
-    Book.ordered_by_title.proxy_options.should == {:order => '`books`.title ASC'}
+  it "should return a list of books ordered by their title" do
+    Book.ordered_by_title.proxy_options.should == {:order => 'books.title ASC'}
   end
 end
 
+describe Book, ".find_by_isbn" do
+  describe "given the ISBN of a book in the local database" do
+    fixtures :books
+    
+    it "should return the book" do
+      Book.find_by_isbn(books(:velvet_elvis).isbn).should eql(books(:velvet_elvis))
+    end
+  end
+  
+  describe "given the ISBN of a book not in the local database" do
+    it "should return nil" do
+      Book.find_by_isbn('9780964729230').should be_nil
+    end
+  end
+end
+
+# TODO: Expand the specs for this method.
 describe Book, ".find_or_initialize_by_isbn" do
   describe "with a valid ISBN" do
     fixtures :books, :authors
@@ -180,4 +202,8 @@ describe Book, ".to_s" do
   it "should return the book's title" do
     Book.new(:title => 'Velvet Elvis').to_s.should eql('Velvet Elvis')
   end
+end
+
+# TODO: Add specs for this method...maybe.
+describe Book, "update_photo" do
 end

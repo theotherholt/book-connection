@@ -61,11 +61,34 @@ describe User, ".authenticate" do
   end
   
   it "should raise User::AccountNotVerified if a non-active user attempts to login" do
-    users(:ryan_holt).update_attribute(:state, 'pending') # Deactivate Ryan for now.
+    users(:ryan_holt).update_attribute(:activated_at, nil) # Deactivate Ryan for now.
     
     lambda {
       User.authenticate('rah6', 'password')
     }.should raise_error(User::AccountNotVerified)
+  end
+end
+
+describe User, ".activate!" do
+  fixtures :users
+  
+  it "should set the activated_at field" do
+    user = users(:ryan_holt)
+    lambda { user.activate! }.should change(user, :activated_at)
+  end
+end
+
+describe User, ".active?" do
+  it "should return true if activated_at is set" do
+    user = User.new
+    user.activated_at = Time.now
+    user.active?.should be_true
+  end
+  
+  it "should return false if activated_at is not set" do
+    user = User.new
+    user.activated_at = nil
+    user.active?.should be_false
   end
 end
 
@@ -79,6 +102,46 @@ describe User, ".authenticated?" do
   it "should return false if the given plaintext password does not match the stored encrypted password" do
     users(:ryan_holt).authenticated?('bad').should be_false
   end
+end
+
+describe User, ".email" do
+  it "should return the user's alternate email if it is set" do
+    User.new(:alternate_email => 'foo@bar.com').email.should eql('foo@bar.com')
+  end
+  
+  it "should return the user's webmail address, with an domain based on that user's alumni status" do
+    User.new(:username => 'foo', :alumni => false).email.should eql('foo@students.calvin.edu')
+    User.new(:username => 'foo', :alumni => true).email.should eql('foo@alumni.calvin.edu')
+  end
+end
+
+describe User, ".email_with_name" do
+  before do
+    @user = User.new do |user|
+      user.first_name = 'First'
+      user.last_name  = 'Last'
+      user.username   = 'foo'
+      user.alumni     = false
+    end
+  end
+  
+  it "should return the user's name and email formatted as 'First Last <foo@bar.com>'" do
+    @user.email_with_name.should eql('First Last <foo@students.calvin.edu>')
+  end
+  
+  it "should call email to do the actual email formatting" do
+    @user.should_receive(:email).and_return('foo@students.calvin.edu')
+    @user.email_with_name
+  end
+end
+
+describe User, ".name (and .to_s)" do
+  it "should return the user's full name" do
+    User.new(:first_name => 'Ryan', :last_name => 'Holt').name.should eql('Ryan Holt')
+  end
+end
+
+describe User, ".reset_activation_code" do
 end
 
 describe User, ".reset_password" do
@@ -101,23 +164,15 @@ describe User, ".reset_password" do
   end
 end
 
-describe User, ".set_password" do
+describe User, ".suspend!" do
   fixtures :users
   
   before do
     @user = users(:ryan_holt)
   end
   
-  it "should change the password attribute" do
-    lambda {
-      @user.set_password('foobar')
-    }.should change(@user, :password)
-  end
-  
-  it "should change the encrypted password" do
-    lambda {
-      @user.set_password('foobar')
-    }.should change(@user, :crypted_password)
+  it "should set the activated_at field to nil" do
+    lambda { @user.suspend! }.should change(@user, :activated_at).to(nil)
   end
 end
 

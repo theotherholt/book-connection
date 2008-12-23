@@ -1,6 +1,3 @@
-require 'net/http'
-require 'xmlsimple'
-
 class Book < ActiveRecord::Base
   ##
   # Raised when a request to Amazon comes back with anything but HTTPOK.
@@ -36,11 +33,11 @@ class Book < ActiveRecord::Base
   # ==== Parameters
   # isbn<String>::
   #   The ISBN to use in the scope.
-  named_scope :with_isbn, lambda { |isbn| { :conditions => "`books`.isbn = #{ISBNTools.normalize_isbn(isbn)}" }}
+  named_scope :with_isbn, lambda { |isbn| { :conditions => "books.isbn = #{ISBNTools.normalize_isbn(isbn)}" }}
   
   ##
   # Orders the query results by the book titles.
-  named_scope :ordered_by_title, :order => '`books`.title ASC'
+  named_scope :ordered_by_title, :order => 'books.title ASC'
   
   #--
   # Class Methods
@@ -166,7 +163,7 @@ class Book < ActiveRecord::Base
   def average_price
     ActionController::Base.helpers.number_to_currency(
       Post.average(:price, :conditions => [
-        "posts.book_id = ? AND posts.state = 'for_sale'", self.id
+        "posts.book_id = ? AND posts.sold_at IS NULL", self.id
       ])
     )
   end
@@ -178,7 +175,7 @@ class Book < ActiveRecord::Base
   def average_sold_price
     ActionController::Base.helpers.number_to_currency(
       Post.average(:price, :conditions => [
-        "posts.book_id = ? AND posts.state = 'sold'", self.id
+        "posts.book_id = ? AND posts.sold_at IS NULL", self.id
       ])
     )
   end
@@ -216,7 +213,7 @@ class Book < ActiveRecord::Base
   def lowest_price
     ActionController::Base.helpers.number_to_currency(
       Post.minimum(:price, :conditions => [
-        "posts.book_id = ? AND posts.state = 'for_sale'", self.id
+        "posts.book_id = ? AND posts.sold_at IS NULL", self.id
       ])
     )
   end

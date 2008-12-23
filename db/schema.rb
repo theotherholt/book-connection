@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081223184053) do
+ActiveRecord::Schema.define(:version => 20081223201435) do
 
   create_table "authors", :force => true do |t|
     t.string "name"
@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(:version => 20081223184053) do
     t.integer  "book_id"
     t.integer  "edition"
     t.integer  "condition_id"
-    t.string   "state"
     t.decimal  "price",        :precision => 5, :scale => 2
     t.datetime "sold_at"
     t.datetime "created_at"
