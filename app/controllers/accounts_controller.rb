@@ -25,7 +25,7 @@ class AccountsController < ApplicationController # :nodoc:
   def create
     @user = User.new(params[:user])
     
-    if @user.save && @user.register!
+    if @user.save
       UserMailer.deliver_signup_notification(@user)
       
       flash[:notice] = "Your account has been created. Check your email for your activation code."
@@ -36,10 +36,12 @@ class AccountsController < ApplicationController # :nodoc:
   end
   
   def edit
+    # FIXME: Remove this useless assignment.
     @user = self.current_user
   end
   
   def update
+    # FIXME: Remove this useless assignment.
     @user = self.current_user
     
     if @user.update_attributes(params[:user])

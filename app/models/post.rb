@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
   validates_presence_of     :book_id, :message => 'must have an associated book'
   validates_presence_of     :condition_id, :price
   validates_numericality_of :price
-  validates_numericality_of :edition, :if => Proc.new { |post| !post[:edition].blank? }
+  validates_numericality_of :edition, :allow_blank => true
   
   #--
   # Relations

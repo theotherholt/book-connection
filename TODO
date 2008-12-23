@@ -22,7 +22,7 @@ Search::
       decremented whenever a user lists, unlists, or sells a book.
 
 Fix::
-  - Make PNGs work in IE. (Test out the site in IE 6 to see if SuperSlight fixed this)
+  - Make PNGs work in IE.
   - Spruce up the home page!
 
 Eventually::
