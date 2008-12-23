@@ -19,7 +19,7 @@ class SessionsController < ApplicationController # :nodoc:
         if logged_in?
           redirect_back_or_default(posts_path)
         else
-          flash[:notice] = "Incorrect email/password combination."
+          flash[:warning] = "Incorrect email/password combination."
           redirect_to(new_session_path)
         end
       end

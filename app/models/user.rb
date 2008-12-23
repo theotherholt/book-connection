@@ -151,31 +151,6 @@ class User < ActiveRecord::Base
   end
   
   ##
-  # ==== Returns
-  # Integer::
-  #   1 if the user is an alumni, and 0 if they aren't.
-  #
-  # ==== Notes
-  # This method is used in conjunction with the user contact info form. It
-  # converts the stored boolean value to an integer for the form's drop-down
-  # box.
-  def alumni
-    (self.alumni?) ? 1 : 0
-  end
-  
-  ##
-  # ==== Parameters
-  # value<~to_i>::
-  #   1 if the user is an alumni, and 0 if they aren't.
-  #
-  # ==== Notes
-  # This method is used in conjunction with the user contact info form. It
-  # converts the input from the form's drop-down box to a boolean value.
-  def alumni=(value)
-    self[:alumni] = (value.to_i.zero?) ? false : true
-  end
-  
-  ##
   # Checks to see if the plaintext password matches the stored encrypted
   # password.
   #
