@@ -23,31 +23,6 @@ class Post < ActiveRecord::Base
              :class_name  => 'User',
              :foreign_key => 'buyer_id'
   
-  #--
-  # Plugins
-  #++
-  acts_as_state_machine(:initial => :passive)
-  
-  state :passive
-  state :for_sale, :enter => :mark_as_for_sale
-  state :sold,     :enter => :mark_as_sold
-  state :unavailable
-  
-  event :list do
-    transitions :from => [ :sold, :unavailable, :passive ],
-                :to   => :for_sale
-  end
-  
-  event :sell do
-    transitions :from => :for_sale,
-                :to   => :sold
-  end
-  
-  event :unlist do
-    transitions :from => [ :for_sale, :passive, :pending ],
-                :to   => :unavailable
-  end
-  
   ##
   # Returns the set of posts ordered by their book's title.
   named_scope :ordered_by_title,
@@ -112,6 +87,12 @@ class Post < ActiveRecord::Base
     end
   end
   
+  def list!
+    self.for_sale = nil
+    self.buyer    = nil
+    self.save
+  end
+  
   ##
   # ==== Returns
   # String::
@@ -157,9 +138,14 @@ class Post < ActiveRecord::Base
   # PostNotAvailable::
   #   If the post isn't for sale.
   def purchase(buyer)
-    raise PostNotAvailable unless self.for_sale?
-    self.buyer_id = (buyer.is_a?(User)) ? buyer.id : buyer
-    sell!
+    raise PostNotAvailable unless self.sold_at.nil?
+    
+    self.buyer = buyer
+    self.update_attribute(:sold_at, Time.now)
+  end
+  
+  def sold?
+    !self.sold_at.nil?
   end
   
   ##
@@ -167,51 +153,10 @@ class Post < ActiveRecord::Base
   # String::
   #   A neatly formatted state string.
   def state_with_formatting
-    self.state.humanize.capitalize
-  end
-  
-  ##
-  # ==== Returns
-  # Boolean::
-  #   True if the post is for sale.
-  #
-  # ==== Notes
-  # This method is used in the edit post form to allow the user to specify the
-  # status of the post through radio buttons.
-  def status
-    self.for_sale?
-  end
-  
-  ##
-  # ==== Parameters
-  # status<~to_i>::
-  #   The new status of the post.
-  #
-  # ==== Notes
-  # This method is used in the edit post form to allow the user to specify the
-  # status of the post through radio buttons.
-  def status=(status)
-    if status.to_i.zero?
-      self.unlist!
+    if self.sold?
+      'Sold'
     else
-      self.list!
+      'For sale'
     end
-  end
-  
-  #--
-  # Protected Methods
-  #++
-  protected
-  
-  ##
-  # Clears the sold_at attribute if the post is made available for sale.
-  def mark_as_for_sale
-    self.sold_at = nil
-  end
-  
-  ##
-  # Sets the sold_at attribute if the post is sold.
-  def mark_as_sold
-    self.sold_at = Time.now
   end
 end

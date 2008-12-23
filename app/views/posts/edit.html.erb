@@ -40,19 +40,12 @@
         <th><%= form.label(:condition_id) %></th>
         <td><%= form.select(:condition_id, Constants::CONDITION) %></td>
       </tr>
-      <tr class="even">
+      <tr class="even last">
         <th><%= form.label(:price) %></th>
         <td>
           <%= form.text_field(:price) %>
           <%= error_message_on(:post, :price, :prepend_text => 'Price ') %>
           <%= render(:partial => 'price_help', :locals => { :book => @post.book }) %>
-        </td>
-      </tr>
-      <tr class="odd last">
-        <th>Status</th>
-        <td>
-          <%= form.radio_button(:state, 'for_sale') %> <%= label(:post, :state_for_sale, 'For Sale') %>
-          <%= form.radio_button(:state, 'unavailable') %> <%= label(:post, :state_unavailable, 'Unavailable') %>
         </td>
       </tr>
     </tbody>

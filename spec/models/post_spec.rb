@@ -45,19 +45,6 @@ describe Post, "ordered_by_title scope" do
   end
 end
 
-describe Post, "ordered_by_state scope" do
-  fixtures :users, :posts
-  
-  it "should return a list of posts ordered by their state" do
-    ordered_posts = [
-      posts(:ryan_holt_blue_like_jazz),
-      posts(:ryan_holt_velvet_elvis),
-      posts(:ryan_holt_sex_god)
-    ]
-    Post.ordered_by_state.find_all_by_user_id(users(:ryan_holt).id).should eql(ordered_posts)
-  end
-end
-
 describe Post, "ordered_by_price scope" do
   fixtures :users, :posts
   
@@ -142,37 +129,7 @@ end
 
 describe Post, ".state_with_formatting" do
   it "should humanize the state" do
-    Post.new(:state => 'passive').state_with_formatting.should eql('Passive')
-    Post.new(:state => 'for_sale').state_with_formatting.should eql('For sale')
-    Post.new(:state => 'sold').state_with_formatting.should eql('Sold')
-    Post.new(:state => 'unavailable').state_with_formatting.should eql('Unavailable')
-  end
-end
-
-describe Post, ".status" do
-  it "should return true if the post's state is 'for_sale'" do
-    Post.new(:state => 'for_sale').status.should be_true
-  end
-  
-  it "should return false if the post's state is not 'for_sale'" do
-    Post.new(:state => 'unavailable').status.should be_false
-  end
-end
-
-describe Post, ".status=" do
-  fixtures :posts
-  
-  before do
-    @post = posts(:ryan_holt_velvet_elvis)
-  end
-  
-  it "should unlist the post if set to 0" do
-    @post.should_receive(:unlist!).and_return(true)
-    @post.status = 0
-  end
-  
-  it "should list the post if set to 1" do
-    @post.should_receive(:list!).and_return(true)
-    @post.status = 1
+    Post.new(:sold_at => nil).state_with_formatting.should eql('For sale')
+    Post.new(:sold_at => Time.now).state_with_formatting.should eql('Sold')
   end
 end

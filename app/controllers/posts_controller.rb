@@ -33,7 +33,7 @@ class PostsController < ApplicationController # :nodoc:
       post.price        = params[:post][:price]
     end
     
-    if @post.save && @post.list!
+    if @post.save
       flash[:notice] = "\"#{@template.truncate(@book.title, :length => 50)}\" was added to your posted books."
       redirect_to(posts_path)
     else
