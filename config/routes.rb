@@ -31,11 +31,10 @@ ActionController::Routing::Routes.draw do |map|
   
   ##
   # Get that activation link working.
-  map.activate '/activate/:id/:activation',
-    :controller => 'accounts',
-    :action     => 'activate',
-    :id         => /\d+/,
-    :activation => nil
+  map.activate '/activate/:activation_code',
+    :controller      => 'accounts',
+    :action          => 'activate',
+    :activation_code => /\w+/
   
   ###
   ## Setup the root of the site to point to the MainController.

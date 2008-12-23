@@ -19,6 +19,5 @@ Rails::Initializer.run do |config|
   config.load_paths << "#{RAILS_ROOT}/app/mailers"
 end
 
-# Setup the exception notifier
 ExceptionNotifier.exception_recipients = %w{seifersays@gmail.com}
 ExceptionNotifier.email_prefix = "[Book Connection ERROR] "

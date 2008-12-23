@@ -2,19 +2,15 @@ class AccountsController < ApplicationController # :nodoc:
   skip_before_filter :require_login, :only => [ :new, :create, :activate ]
   
   def activate
-    begin
-      @user = User.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      flash[:notice] = "We couldn't find an account with that ID."
+    @user = User.find_by_activation_code(params[:activation_code])
+    
+    if @user.nil?
+      flash[:notice] = "We couldn't find an account with that activation code."
       redirect_to(root_path)
     else
-      if @user.activate_with(params[:activation])
-        flash[:notice] = "Your account is active and ready to go!"
-        redirect_to(new_session_path)
-      else
-        flash[:notice] = "You entered an invalid activation code."
-        redirect_to(root_path)
-      end
+      @user.activate!
+      flash[:notice] = "Your account is active and ready to go!"
+      redirect_to(new_session_path)
     end
   end
   

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081207170918) do
+ActiveRecord::Schema.define(:version => 20081223184053) do
 
   create_table "authors", :force => true do |t|
     t.string "name"
@@ -56,9 +56,7 @@ ActiveRecord::Schema.define(:version => 20081207170918) do
     t.string   "crypted_password"
     t.string   "salt"
     t.string   "activation_code"
-    t.string   "state"
     t.datetime "activated_at"
-    t.datetime "deleted_at"
     t.datetime "last_login_at"
     t.datetime "created_at"
     t.datetime "updated_at"

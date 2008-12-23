@@ -4,4 +4,7 @@ Welcome to the Book Connection. Your account has been created
 and all that's left to do is activate it. Visit this url to
 activate your account:
 
-  <%= activate_path(:id => @user.id, :activation => @user.activation_code, :only_path => false) %>
+<%= activate_path(:activation_code => @user.activation_code, :only_path => false) %>
+
+Cheers,
+The Book Connection Team

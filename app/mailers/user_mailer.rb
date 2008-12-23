@@ -9,11 +9,6 @@ class UserMailer < ActionMailer::Base # :nodoc:
     @subject += 'Your Password Has Been Reset'
   end
   
-  def migrate_account(user)
-    setup_email(user)
-    @subject += 'Welcome to the New Book Connection'
-  end
-  
   protected
     def setup_email(user)
       @recipients  = user.email

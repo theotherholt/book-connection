@@ -31,46 +31,8 @@ class User < ActiveRecord::Base
   #--
   # Callbacks
   #++
-  before_save :encrypt_password
-  
-  #--
-  # Plugins
-  #++
-  acts_as_state_machine(:initial => :passive)
-  
-  state :passive
-  state :pending,  :enter => :make_activation_code
-  state :active,   :enter => :do_activate
-  state :suspended
-  
-  event :register do
-    transitions :from  => :passive,
-                :to    => :pending,
-                :guard => Proc.new { |u| !(u.crypted_password.blank? && u.password.blank?) }
-  end
-  
-  event :activate do
-    transitions :from => :pending,
-                :to   => :active
-  end
-  
-  event :suspend do
-    transitions :from => [ :passive, :pending, :active ],
-                :to   => :suspended
-  end
-  
-  event :unsuspend do
-    transitions :from  => :suspended,
-                :to    => :active,
-                :guard => Proc.new { |u| !u.activated_at.blank? }
-    
-    transitions :from  => :suspended,
-                :to    => :pending,
-                :guard => Proc.new { |u| !u.activation_code.blank? }
-    
-    transitions :from => :suspended,
-                :to   => :passive
-  end
+  before_save   :encrypt_password
+  before_create :make_activation_code
   
   #--
   # Class Methods
@@ -142,13 +104,18 @@ class User < ActiveRecord::Base
   end
   
   ##
-  # Activates the user if given the correct activation code.
-  #
-  # ==== Parameters
-  # activation<String>::
-  #   The user's activation code.
-  def activate_with(activation)
-    self.activate! if self.pending? && self.activation_code == activation
+  # Sets the user's +activated_at+ field to the current time, activating that
+  # user and allowing him or her to login.
+  def activate!
+    self.update_attribute(:activated_at, Time.now)
+  end
+  
+  ##
+  # ==== Returns
+  # Boolean::
+  #   True if the user is active, otherwise false.
+  def active?
+    !self.activated_at.nil?
   end
   
   ##
@@ -217,30 +184,24 @@ class User < ActiveRecord::Base
   end
   alias :to_s :name
   
-  ##
-  # Set's the user's password to a random 8 character string.
-  def reset_password
-    self.set_password(User.random_hash(8))
+  def reset_activation_code
+    self.make_activation_code
+    self.save
+    self.activation_code
   end
   
   ##
-  # Set's the user's password and password confirmation at the same time, then
-  # saves the model.
-  #
-  # ==== Parameters
-  # password<String>::
-  #   The user's plaintext password.
-  #
-  # ==== Notes
-  # This method is really just a convenience method for use on the command line,
-  # as well as a few other situations where the program doesn't need password
-  # confirmation.
-  def set_password(password)
-    self.update_attributes(
-      :password => password,
-      :password_confirmation => password
-    )
-    self.password = password
+  # Sets the user's password to a random 8 character string.
+  def reset_password
+    self.password = User.random_hash(8)
+    self.save_with_validation(false)
+  end
+  
+  ##
+  # Sets the user's +activated_at+ field to nil, effectively suspending that
+  # user.
+  def suspend!
+    self.update_attribute(:activated_at, nil)
   end
   
   ##
@@ -289,28 +250,8 @@ class User < ActiveRecord::Base
     characters = ('A'..'Z').to_a + (2..9).to_a - [ 'I', 'O' ]
     
     begin
-      self.activation_code = Array.new(10, '').collect { characters[rand(characters.size)] }.join
+      self.activation_code = Array.new(10, '').collect { characters[ rand(characters.size) ] }.join
     end while self.class.exists?(:activation_code => self.activation_code)
-    
-    self.deleted_at = nil
-  end
-  
-  ##
-  # Sets the user's deleted_at attribute to the current time.
-  #
-  # ==== Notes
-  # I'm not even sure if this works currently. I believe users do really get
-  # deleted by Rails still.
-  def do_delete
-    self.deleted_at = Time.now.utc
-  end
-  
-  ##
-  # Sets the user's activated_at attribute and clears their deleted_at and
-  # activation_code attributes when the user becomes active.
-  def do_activate
-    self.activated_at = Time.now.utc
-    self.deleted_at = self.activation_code = nil
   end
   
   #--
@@ -320,7 +261,7 @@ class User < ActiveRecord::Base
   
   ##
   # Encrypts the user's plaintext password if it is set. This method generates
-  # a password salt if one does not exist, then calls the encrypt method to
+  # a password salt if one does not exist, then calls the +encrypt+ method to
   # do the actual encryption.
   def encrypt_password
     return if self.password.blank?
