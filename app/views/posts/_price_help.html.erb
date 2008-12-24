@@ -1,6 +1,6 @@
-<% unless book.posts.for_sale.empty? %>
+<% unless book.posts_for_sale_count.zero? %>
   <div style="margin-top: 5px;">
-    <%= pluralize(book.posts.for_sale.size, 'copy') %> of this book for sale.<br />
+    <%= pluralize(book.posts_for_sale_count, 'copy') %> of this book for sale.<br />
     <table style="margin: 5px 0 0 0; width: auto;">
       <tbody>
         <tr>

@@ -7,20 +7,6 @@ New Feature Ideas::
   - Pretty (possibly HTML) emails
   - Ability to tag books with a given course or subject
 
-Critical::
-  - Allow users to send password resets to alternate email accounts (and also login with alternate
-    email accounts). In short, make alternate email accounts viable!
-
-Soon::
-  - Send out an email to all Book Connection users to inform them of the new site location.
-
-Search::
-  - I decided to break this one out into its own issue:
-      We need to improve the performance of BooksController::search. When rendering each book it
-      currently re-queries each book's posts for sale count. We could improve this by adding another
-      counter column for the posts for sale count, and then having this column incremented or
-      decremented whenever a user lists, unlists, or sells a book.
-
 Fix::
   - Make PNGs work in IE.
   - Spruce up the home page!

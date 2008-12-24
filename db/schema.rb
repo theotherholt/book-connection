@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081223201435) do
+ActiveRecord::Schema.define(:version => 20081224182846) do
 
   create_table "authors", :force => true do |t|
     t.string "name"
@@ -32,7 +32,8 @@ ActiveRecord::Schema.define(:version => 20081223201435) do
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
     t.boolean  "delta"
-    t.integer  "posts_count",        :default => 0
+    t.integer  "posts_count",          :default => 0
+    t.integer  "posts_for_sale_count", :default => 0
   end
 
   create_table "posts", :force => true do |t|
@@ -41,10 +42,11 @@ ActiveRecord::Schema.define(:version => 20081223201435) do
     t.integer  "book_id"
     t.integer  "edition"
     t.integer  "condition_id"
-    t.decimal  "price",        :precision => 5, :scale => 2
+    t.decimal  "price",                :precision => 5, :scale => 2
     t.datetime "sold_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "posts_for_sale_count",                               :default => 0
   end
 
   create_table "users", :force => true do |t|

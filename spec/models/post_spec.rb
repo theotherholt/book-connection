@@ -141,6 +141,12 @@ describe Post, ".list!" do
   it "should set the buyer to nil" do
     @post.buyer.should be_nil
   end
+  
+  it "should increment the associated book's posts_for_sale_count" do
+    post = posts(:ryan_holt_velvet_elvis)
+    previous_count = post.book.posts_for_sale_count
+    lambda { post.list! }.should change(post.book, :posts_for_sale_count).from(previous_count).to(previous_count + 1)
+  end
 end
 
 describe Post, ".price_with_formatting" do
@@ -163,15 +169,15 @@ describe Post, ".price=" do
 end
 
 describe Post, ".purchase" do
-  fixtures :users
+  fixtures :users, :posts
   
   before do
-    @post = Post.new
+    @post = posts(:ryan_holt_velvet_elvis)
   end
   
   it "should raise PostNotAvailable if the post has already been sold" do
-    @post.sold_at = Time.now
-    lambda { @post.purchase(:user) }.should raise_error(Post::PostNotAvailable)
+    @post.update_attribute(:sold_at, Time.now)
+    lambda { @post.purchase(users(:ryan_holt)) }.should raise_error(Post::PostNotAvailable)
   end
   
   it "should set the buyer" do
@@ -180,6 +186,11 @@ describe Post, ".purchase" do
   
   it "should set the sold_at time" do
     lambda { @post.purchase(users(:ryan_holt)) }.should change(@post, :sold_at)
+  end
+  
+  it "should decrement the associated book's posts_for_sale_count" do
+    previous_count = @post.book.posts_for_sale_count
+    lambda { @post.purchase(users(:ryan_holt)) }.should change(@post.book, :posts_for_sale_count).from(previous_count).to(previous_count - 1)
   end
 end
 

@@ -83,9 +83,12 @@ class Post < ActiveRecord::Base
     end
   end
   
+  ##
+  # Marks a post as 'for sale', allowing it to be listed in searches.
   def list!
     self.sold_at = nil
     self.buyer   = nil
+    self.book.posts_for_sale_count += 1
     self.save
   end
   
@@ -136,10 +139,16 @@ class Post < ActiveRecord::Base
   def purchase(buyer)
     raise PostNotAvailable unless self.sold_at.nil?
     
-    self.buyer = buyer
-    self.update_attribute(:sold_at, Time.now)
+    self.buyer   = buyer
+    self.sold_at = Time.now
+    self.book.posts_for_sale_count -= 1
+    self.save
   end
   
+  ##
+  # ==== Returns
+  # Boolean::
+  #   True if a book's +sold_at+ field is set and a book is 'for sale'.
   def sold?
     !self.sold_at.nil?
   end
