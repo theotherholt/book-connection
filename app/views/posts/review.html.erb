@@ -5,9 +5,8 @@
   in a few more details and pick an asking price.
 </p>
 
-<% error_messages_for(:book, :post) %>
-
 <% form_for(:post, :url => posts_path) do |form| %>
+  <%= form.error_messages(:header_message => nil) %>
   <table class="striped">
     <tfoot>
       <tr>
@@ -38,10 +37,7 @@
           <%= form.label(:edition) %>
           <span>(optional)</span>
         </th>
-        <td>
-          <%= form.text_field(:edition) %>
-          <%= error_message_on(:post, :edition, :prepend_text => 'Edition ') %>
-        </td>
+        <td><%= form.text_field(:edition) %></td>
       </tr>
       <tr class="odd">
         <th><%= form.label(:condition_id) %></th>
@@ -51,7 +47,6 @@
         <th><%= form.label(:price) %></th>
         <td>
           <%= form.text_field(:price) %>
-          <%= error_message_on(:post, :price, :prepend_text => 'Price ') %>
           <%= render(:partial => 'posts/price_help', :locals => { :book => @book }) %>
         </td>
       </tr>

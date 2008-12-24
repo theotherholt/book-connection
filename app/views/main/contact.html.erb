@@ -1,8 +1,7 @@
 <% title('Contact Us') %>
 
-<% error_messages_for(:contact_form) %>
-
 <% form_for(@contact_form, :url => contact_path) do |form| %>
+  <%= form.error_messages(:header_message => nil) %>
   <table class="striped">
     <tfoot>
       <tr>
@@ -17,16 +16,13 @@
       </tr>
       <tr class="even">
         <th><%= form.label(:email) %></th>
-        <td>
-          <%= form.text_field(:email, { :value => self.current_user.try(:email) }) %>
-          <%= error_message_on(:contact_form, :email, :prepend_text => 'Email ') %>
-        </td>
+        <td><%= form.text_field(:email, { :value => self.current_user.try(:email) }) %></td>
       </tr>
       <tr class="odd">
         <th><%= form.label(:subject) %></th>
         <td>
           <%= form.text_field(:subject) %>
-          ( <%= form.check_box(:bug) %><small><%= form.label(:bug, " I think I found a bug!") %></small> )
+          ( <%= form.check_box(:bug) %> <small><%= form.label(:bug, 'I think I found a bug!') %></small> )
         </td>
       </tr>
       <tr class="even last">
@@ -34,10 +30,7 @@
           <%= form.label(:message) %>
           <span>(required)</span>
         </th>
-        <td>
-          <%= form.text_area(:message, { :rows => 10, :cols => 30 }) %>
-          <%= error_message_on(:contact_form, :message, :prepend_text => 'Message ') %>
-        </td>
+        <td><%= form.text_area(:message, { :rows => 10, :cols => 30 }) %></td>
       </tr>
     </tbody>
   </table>

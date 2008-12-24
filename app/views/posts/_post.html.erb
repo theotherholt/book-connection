@@ -17,6 +17,10 @@
           <td><%= h(post.try(:edition_with_formatting)) %></td>
         </tr>
         <tr>
+          <th>Condition</th>
+          <td><%= h(post.try(:condition_with_formatting)) %></td>
+        </tr>
+        <tr>
           <th>Price</th>
           <td><%= h(post.try(:price_with_formatting)) %></td>
         </tr>

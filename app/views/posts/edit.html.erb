@@ -1,16 +1,12 @@
 <% title('Edit Your Book') %>
 
-<% error_messages_for(:post) %>
-
 <% form_for(@post) do |form| %>
+  <%= form.error_messages(:header_message => nil) %>
   <table class="striped">
     <tfoot>
       <tr>
         <th></th>
-        <td>
-          <%= form.submit('Update') %>&nbsp;
-          <%= link_to('Cancel', posts_path) %>
-        </td>
+        <td><%= form.submit('Update') %> <%= link_to('Cancel', posts_path) %></td>
       </tr>
     </tfoot>
     <tbody>
@@ -31,10 +27,7 @@
           <%= form.label(:edition) %>
           <span>(optional)</span>
         </th>
-        <td>
-          <%= form.text_field(:edition) %>
-          <%= error_message_on(:post, :edition, :prepend_text => 'Edition ') %>
-        </td>
+        <td><%= form.text_field(:edition) %></td>
       </tr>
       <tr class="odd">
         <th><%= form.label(:condition_id) %></th>
@@ -44,7 +37,6 @@
         <th><%= form.label(:price) %></th>
         <td>
           <%= form.text_field(:price) %>
-          <%= error_message_on(:post, :price, :prepend_text => 'Price ') %>
           <%= render(:partial => 'price_help', :locals => { :book => @post.book }) %>
         </td>
       </tr>

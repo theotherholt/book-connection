@@ -1,8 +1,8 @@
 <% title('Your Account') %>
 
-<% error_messages_for(:user) %>
-
 <h3>Update Your Contact Info</h3>
+
+<%= error_messages_for(:user, :header_message => nil) %>
 
 <% form_for(:user, :url => account_path, :html => { :method => :put }) do |form| %>
   <table class="striped">
@@ -15,24 +15,17 @@
     <tbody>
       <tr class="odd">
         <th><%= form.label(:first_name) %></th>
-        <td>
-          <%= form.text_field(:first_name) %>
-          <%= error_message_on(:user, :first_name, :prepend_text => 'First name ') %>
-        </td>
+        <td><%= form.text_field(:first_name) %></td>
       </tr>
       <tr class="even">
         <th><%= form.label(:last_name) %></th>
-        <td>
-          <%= form.text_field(:last_name) %>
-          <%= error_message_on(:user, :last_name, :prepend_text => 'Last name ') %>
-        </td>
+        <td><%= form.text_field(:last_name) %></td>
       </tr>
       <tr class="odd">
         <th><%= form.label(:alumni, 'Email') %></th>
         <td>
-          <%= @user.username %>
-          <%= form.hidden_field(:username) %>
-          <%= form.select(:alumni, [['@students.calvin.edu', 0 ], [ '@alumni.calvin.edu', 1 ]]) %>
+          <%= form.text_field(:username, :disabled => true) %>
+          <%= form.select(:alumni, Constants::EMAIL_SELECT) %>
         </td>
       </tr>
       <tr class="even">
@@ -42,7 +35,6 @@
         </th>
         <td>
           <%= form.text_field(:alternate_email) %>
-          <%= error_message_on(:user, :alternate_email, :prepend_text => 'Alternate email ') %>
           <em style="margin-top: 5px; display: block;">
             If this is set, we will use it instead of your Calvin email when contacting you. Due
             to recent changes in Calvin's mail system. Alumni should specify an alternate email.
@@ -54,10 +46,7 @@
           <%= form.label(:phone) %>
           <span>(optional)</span>
         </th>
-        <td>
-          <%= form.text_field(:phone) %>
-          <%= error_message_on(:user, :phone, :prepend_text => 'Phone number ') %>
-        </td>
+        <td><%= form.text_field(:phone) %></td>
       </tr>
     </tbody>
   </table>
@@ -78,15 +67,12 @@
         <th><%= form.label(:password) %></th>
         <td>
           <%= form.password_field(:password) %>
-          <%= text_or_error_message_on('<em>(must be at least 4 characters long)</em>', :user, :password, :prepend_text => 'Password ') %>
+          <em>(must be at least 4 characters long)</em>
         </td>
       </tr>
       <tr class="even last">
         <th><%= form.label(:password_confirmation, 'Confirm') %></th>
-        <td>
-          <%= form.password_field(:password_confirmation) %>
-          <%= error_message_on(:user, :password_confirmation, :prepend_text =>  'Confirmation ') %>
-        </td>
+        <td><%= form.password_field(:password_confirmation) %></td>
       </tr>
     </tbody>
   </table>

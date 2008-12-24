@@ -1,15 +1,12 @@
 <% title('Register') %>
 
-<% error_messages_for(:user) %>
-
 <p>
-  To create an account simply enter your Calvin username (the username you use to login to Calvin's
-  webmail service) and fill in the rest of the form. An activation code will be sent to your
-  <%= link_to('webmail', 'http://www.calvin.edu/go/studentmail/') %> account. After activating your
-  account you will be able to login to Book Connection and start selling (or buying).
+  You need a Calvin webmail address to create an account on the Book Connection. Fill in your info,
+  and we'll send you an activation code.
 </p>
 
 <% form_for(:user, :url => account_path) do |form| %>
+  <%= form.error_messages(:header_message => nil) %>
   <table class="striped">
     <tfoot>
       <tr>
@@ -20,24 +17,17 @@
     <tbody>
       <tr class="odd">
         <th><%= form.label(:first_name) %></th>
-        <td>
-          <%= form.text_field(:first_name) %>
-          <%= error_message_on(:user, :first_name, :prepend_text => 'First name ') %>
-        </td>
+        <td><%= form.text_field(:first_name) %></td>
       </tr>
       <tr class="even">
         <th><%= form.label(:last_name) %></th>
-        <td>
-          <%= form.text_field(:last_name) %>
-          <%= error_message_on(:user, :last_name, :prepend_text => 'Last name ') %>
-        </td>
+        <td><%= form.text_field(:last_name) %></td>
       </tr>
       <tr class="odd">
         <th><%= form.label(:username) %></th>
         <td>
           <%= form.text_field(:username) %>
-          <%= form.select(:alumni, { '@alumni.calvin.edu' => 1, '@students.calvin.edu' => 0 }) %>
-          <%= error_message_on(:user, :username, :prepend_text => 'Username ') %>
+          <%= form.select(:alumni, Constants::EMAIL_SELECT) %>
         </td>
       </tr>
       <tr class="even">
@@ -45,24 +35,18 @@
           <%= form.label(:phone) %>
           <span>(optional)</span>
         </th>
-        <td>
-          <%= form.text_field(:phone) %>
-          <%= error_message_on(:user, :phone, :prepend_text => 'Phone ') %>
-        </td>
+        <td><%= form.text_field(:phone) %></td>
       </tr>
       <tr class="odd">
         <th><%= form.label(:password) %></th>
         <td>
           <%= form.password_field(:password) %>
-          <%= text_or_error_message_on('<em>(must be at least 4 characters long)</em>', :user, :password, :prepend_text => 'Password ') %>
+          <em>(must be at least 4 characters long)</em>
         </td>
       </tr>
       <tr class="even last">
         <th><%= form.label(:password_confirmation, 'Confirm') %></th>
-        <td>
-          <%= form.password_field(:password_confirmation) %>
-          <%= error_message_on(:user, :password_confirmation, :prepend_text => 'Confirmation ') %>
-        </td>
+        <td><%= form.password_field(:password_confirmation) %></td>
       </tr>
     </tbody>
   </table>

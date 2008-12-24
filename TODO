@@ -8,9 +8,10 @@ New Feature Ideas::
   - Ability to tag books with a given course or subject
 
 Fix::
-  - Make PNGs work in IE.
-  - Spruce up the home page!
+  - Make PNGs work in IE
+  - Spruce up the home page
+  - Add a cron job to clean up Rails logs on the server
 
 Eventually::
-  - Provide a means for users to get a new activation email.
-  - Advertise!!!!!
+  - Provide a means for users to get a new activation email
+  - Advertise!

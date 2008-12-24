@@ -39,6 +39,10 @@ class ActiveForm # :nodoc:
     alias validate_on_create raise_not_implemented_error
     alias validate_on_update raise_not_implemented_error
     alias save_with_validation raise_not_implemented_error
+    
+    def self_and_descendents_from_active_record
+      [ self ]
+    end
   end
   
   def raise_not_implemented_error(*params)
@@ -47,6 +51,10 @@ class ActiveForm # :nodoc:
   
   def self.human_attribute_name(attribute_key_name)
     attribute_key_name.humanize
+  end
+  
+  def self.human_name
+    'ContactForm'
   end
   
   alias save raise_not_implemented_error
