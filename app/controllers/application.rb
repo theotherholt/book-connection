@@ -69,9 +69,9 @@ class ApplicationController < ActionController::Base # :nodoc:
   ##
   # ==== Returns
   # Boolean::
-  #   True if the currently logged in user is a registered user and not anonymous.
+  #   True if the currently logged in user is a registered user and is active.
   def logged_in?
-    !self.current_user.nil?
+    !self.current_user.nil? && self.current_user.active?
   end
   
   hide_action(:logged_in?)

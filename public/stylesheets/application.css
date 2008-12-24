@@ -296,7 +296,7 @@ table.striped tfoot tr td {
 
 /* -----| Rails Form Errors |------------------------------------- */
 div#errorExplanation {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding: 10px;
   background: #ffff80;
   border: 1px solid #fc3;

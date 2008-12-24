@@ -9,6 +9,11 @@ class UserMailer < ActionMailer::Base # :nodoc:
     @subject += 'Your Password Has Been Reset'
   end
   
+  def reset_activation_code(user)
+    setup_email(user)
+    @subject += 'Your Activation Code Has Been Reset'
+  end
+  
   protected
     def setup_email(user)
       @recipients  = user.email

@@ -1,0 +1,9 @@
+Hi <%= h(@user.first_name) %>,
+
+Your activation code has been reset. Visit this url to activate
+your account:
+
+<%= activate_path(:activation_code => @user.activation_code, :only_path => false) %>
+
+Cheers,
+The Book Connection Team

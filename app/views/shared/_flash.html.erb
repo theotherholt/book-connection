@@ -2,7 +2,7 @@
   <div class="flash-warning">
     <div>
       <% flash.each do |key, message| %>
-        <%= simple_format(message) %>
+        <%= sanitize(message) %><br />
       <% end %>
     </div>
   </div>
@@ -12,7 +12,7 @@
   <div class="flash-notice">
     <div>
       <% flash.each do |key, message| %>
-        <%= simple_format(message) %>
+        <%= sanitize(message) %><br />
       <% end %>
     </div>
   </div>

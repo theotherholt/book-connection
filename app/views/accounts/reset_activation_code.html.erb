@@ -1,0 +1,30 @@
+<% title('Reset Your Activation Code') %>
+
+<p>
+  Enter your username and we'll email you a new activation code for your account.
+</p>
+
+<% form_for(:user, :url => reset_activation_path) do |form| %>
+  <table class="striped">
+    <tfoot>
+      <tr>
+        <th></th>
+        <td><%= form.submit('Reset') %></td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr class="odd">
+        <th><%= form.label(:username) %></th>
+        <td><%= form.text_field(:username) %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<script type="text/javascript">
+//<![CDATA[
+  Event.observe(window, 'load', function() {
+    Form.Element.focus('user_username');
+  });
+//]]>
+</script>

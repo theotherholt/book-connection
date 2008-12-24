@@ -62,9 +62,7 @@ class User < ActiveRecord::Base
         if user.active?
           if user.authenticated?(password)
             user.update_attribute(:last_login_at, Time.now)
-            return user
-          else
-            return nil
+            user
           end
         else
           raise AccountNotVerified

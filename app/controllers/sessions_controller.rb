@@ -9,17 +9,18 @@ class SessionsController < ApplicationController # :nodoc:
     if params[:commit].include?('Login')
       begin
         self.current_user = User.authenticate(params[:user][:username], params[:user][:password])
-      rescue
-        flash[:notice] = %{
+      rescue User::AccountNotVerified
+        flash[:warning] = %{
           Your account is not active. Check your email for your activation code, or
-          #{@template.link_to('click here')} to get a new one.
+          #{@template.link_to('click here', reset_activation_path)}
+          to get a new one.
         }
         redirect_to(new_session_path)
       else
         if logged_in?
           redirect_back_or_default(posts_path)
         else
-          flash[:warning] = "Incorrect email/password combination."
+          flash[:warning] = "Incorrect username/password combination."
           redirect_to(new_session_path)
         end
       end

@@ -36,6 +36,10 @@ ActionController::Routing::Routes.draw do |map|
     :action          => 'activate',
     :activation_code => /\w+/
   
+  map.reset_activation '/accounts/reset_activation/',
+    :controller => 'accounts',
+    :action     => 'reset_activation_code'
+  
   ###
   ## Setup the root of the site to point to the MainController.
   map.root :controller => 'main'
