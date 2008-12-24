@@ -4,7 +4,7 @@ var supersleight	= function() {
 	var applyPositioning = true;
 	
 	// Path to a transparent GIF image
-	var shim = 'x.gif';
+	var shim = '/books/javascripts/x.gif';
 	
 	// RegExp to match above GIF image name
 	var shim_pattern	= /x\.gif$/i;
