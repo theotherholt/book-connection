@@ -9,9 +9,7 @@ New Feature Ideas::
 
 Fix::
   - Make PNGs work in IE
-  - Spruce up the home page
-  - Add a cron job to clean up Rails logs on the server
 
 Eventually::
-  - Provide a means for users to get a new activation email
+  - Spruce up the home page
   - Advertise!

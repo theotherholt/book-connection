@@ -4,7 +4,7 @@
 
 <%= error_messages_for(:user, :header_message => nil) %>
 
-<% form_for(:user, :url => account_path, :html => { :method => :put }) do |form| %>
+<% form_for(:user, self.current_user, :url => account_path, :html => { :method => :put }) do |form| %>
   <table class="striped">
     <tfoot>
       <tr>
@@ -54,7 +54,7 @@
 
 <h3>Change Your Password</h3>
 
-<% form_for(:user, :url => account_path, :html => { :method => :put }) do |form| %>
+<% form_for(:user, self.current_user, :url => account_path, :html => { :method => :put }) do |form| %>
   <table class="striped">
     <tfoot>
       <tr>

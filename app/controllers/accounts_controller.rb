@@ -35,16 +35,8 @@ class AccountsController < ApplicationController # :nodoc:
     end
   end
   
-  def edit
-    # FIXME: Remove this useless assignment.
-    @user = self.current_user
-  end
-  
   def update
-    # FIXME: Remove this useless assignment.
-    @user = self.current_user
-    
-    if @user.update_attributes(params[:user])
+    if self.current_user.update_attributes(params[:user])
       if params[:commit].include?('Password')
         flash[:notice] = "Your password was successfully updated."
       else
