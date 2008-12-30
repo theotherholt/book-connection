@@ -1,10 +1,8 @@
 <% title('Login') %>
 
-<div id="password-notice" style="display: none">
-  <div>
-    Don't sweat it, just enter your username and we'll send your new password right along.
-  </div>
-</div>
+<p id="password-notice" style="display: none">
+  Don't sweat it, just enter your username and we'll send your new password right along.
+</p>
 
 <% form_for(:user, :url => session_path) do |form| %>
   <table class="striped" style="margin-bottom: 0">

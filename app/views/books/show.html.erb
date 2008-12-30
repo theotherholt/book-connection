@@ -3,6 +3,19 @@
 <%= image_tag(@book.photo.url, :width => '100', :style => 'margin-bottom: 20px; float: left;') %>
 
 <div style="margin: 0 0 20px 15px; float: left;">
+  <table class="info">
+    <tbody>
+      <tr>
+        <th>ISBN</th>
+        <td><%= @book.try(:isbn_with_formatting) %></td>
+      </tr>
+      <tr>
+        <th><%= @book.author_label_text %></th>
+        <td><%= @book.try(:authors_with_formatting) %></td>
+      </tr>
+    </tbody>
+  </table>
+  
   <table class="striped" style="width: 545px;">
     <thead>
       <tr>

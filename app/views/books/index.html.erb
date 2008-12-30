@@ -2,13 +2,13 @@
 
 <div class="box-wrapper">
   <div>
-    <% form_tag({ :action => 'search' }, { :method => 'get' }) do %>
+    <% form_tag(search_books_path) do %>
       <table style="margin-bottom: 0px; width: 638px;">
         <tbody>
           <tr>
             <td style="text-align: center;">
               <%= text_field_tag(:query, params[:query], { :style => 'margin-right: 5px; width: 500px;' }) %>
-              <%= submit_tag('Search') %>
+              <%= submit_tag('Search', :name => nil) %>
             </td>
           </tr>
         </tbody>
