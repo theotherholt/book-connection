@@ -46,11 +46,11 @@ class PostsController < ApplicationController # :nodoc:
   end
   
   def edit
-    @post = Post.find(params[:id], :include => { :book => :authors })
+    @post = self.current_user.posts.find(params[:id], :include => { :book => :authors })
   end
   
   def update
-    @post = Post.find(params[:id], :include => [ :book ])
+    @post = self.current_user.posts.find(params[:id], :include => [ :book ])
     
     if @post.update_attributes(params[:post])
       flash[:notice] = "\"#{@template.truncate(@post.book.title, :length => 50)}\" was successfully updated."
@@ -81,7 +81,7 @@ class PostsController < ApplicationController # :nodoc:
   end
   
   def relist
-    post = Post.find(params[:id])
+    post = self.current_user.posts.find(params[:id])
     post.list!
     
     flash[:notice] = "\"#{@template.truncate(post.book.title, :length => 50)}\" was re-listed for sale."
@@ -89,7 +89,7 @@ class PostsController < ApplicationController # :nodoc:
   end
   
   def destroy
-    @post = Post.find(params[:id])
+    @post = self.current_user.posts.find(params[:id])
     @post.destroy
     
     flash[:notice] = "\"#{@template.truncate(@post.book.title, :length => 50)}\" was successfully removed."
