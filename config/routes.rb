@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource  :account,
                 :only => [ 'new', 'create', 'edit', 'update', 'show' ]
   map.resource  :session,
-                :only => [ 'index', 'new', 'create', 'destroy' ]
+                :only => [ 'new', 'create', 'destroy' ]
   map.resources :posts,
                 :only => [ 'index', 'new', 'create', 'edit', 'update', 'destroy' ],
                 :new => {
@@ -39,6 +39,13 @@ ActionController::Routing::Routes.draw do |map|
   map.reset_activation '/accounts/reset_activation/',
     :controller => 'accounts',
     :action     => 'reset_activation_code'
+  
+  ##
+  # A quick fix for people who try to go to /session and keep getting a 500
+  # error.
+  map.connect '/session',
+    :controller => 'sessions',
+    :action     => 'index'
   
   ###
   ## Setup the root of the site to point to the MainController.
