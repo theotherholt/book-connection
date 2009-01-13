@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+ENV['RAILS_ENV'] = 'development'
+
+require File.expand_path("#{File.dirname(__FILE__)}/../config/environment")
+
+puts "Validating books..."
+Book.all.each do |book|
+  unless book.valid?
+    puts "  -- #{book.id}"
+    book.errors.each do |attr, error|
+      puts "    -- #{attr.to_s} #{error.to_s}"
+    end
+  end
+end
+
+puts "Validating authors..."
+Author.all.each do |author|
+  unless author.valid?
+    puts "  -- #{author.id}"
+    author.errors.each do |attr, error|
+      puts "    -- #{attr.to_s} #{error.to_s}"
+    end
+  end
+end
+
+puts "Validating posts..."
+Post.all.each do |post|
+  unless post.valid?
+    puts "  -- #{post.id}"
+    post.errors.each do |attr, error|
+      puts "    -- #{attr.to_s} #{error.to_s}"
+    end
+  end
+end
+
+puts "Validating users..."
+User.all.each do |user|
+  unless user.valid?
+    puts "  -- #{user.id}"
+    user.errors.each do |attr, error|
+      puts "    -- #{attr.to_s} #{error.to_s}"
+    end
+  end
+end

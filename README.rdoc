@@ -29,6 +29,8 @@
 
 == Fixes
 - Make PNGs work in IE
+- Run some kind of validation rake task just to clear out any anomalies from the old database, such
+  as posts without associated books or something like that.
 
 == Eventually
 - Spruce up the home page
