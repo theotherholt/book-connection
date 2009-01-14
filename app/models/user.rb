@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
     # AccountNotVerified::
     #   If the user has not yet verified their account.
     def authenticate(username, password)
-      user = self.find_by_username(username)
+      user = self.find_by_username(username.split('@').first)
       
       unless user.nil?
         if user.active?
