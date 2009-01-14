@@ -30,6 +30,7 @@ Post.all.each do |post|
     post.errors.each do |attr, error|
       puts "    -- #{attr.to_s} #{error.to_s}"
     end
+    puts "    -- Post is missing book with ID #{post.book_id}" if post.book.nil?
   end
 end
 
