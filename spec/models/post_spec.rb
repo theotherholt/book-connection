@@ -142,11 +142,11 @@ describe Post, ".list!" do
     @post.buyer.should be_nil
   end
   
-  it "should increment the associated book's posts_for_sale_count" do
-    post = posts(:ryan_holt_velvet_elvis)
-    previous_count = post.book.posts_for_sale_count
-    lambda { post.list! }.should change(post.book, :posts_for_sale_count).from(previous_count).to(previous_count + 1)
-  end
+  #it "should increment the associated book's posts_for_sale_count" do
+  #  post = posts(:ryan_holt_velvet_elvis)
+  #  previous_count = post.book.posts_for_sale_count
+  #  lambda { post.list! }.should change(post.book, :posts_for_sale_count).from(previous_count).to(previous_count + 1)
+  #end
 end
 
 describe Post, ".price_with_formatting" do
@@ -188,10 +188,10 @@ describe Post, ".purchase" do
     lambda { @post.purchase(users(:ryan_holt)) }.should change(@post, :sold_at)
   end
   
-  it "should decrement the associated book's posts_for_sale_count" do
-    previous_count = @post.book.posts_for_sale_count
-    lambda { @post.purchase(users(:ryan_holt)) }.should change(@post.book, :posts_for_sale_count).from(previous_count).to(previous_count - 1)
-  end
+  #it "should decrement the associated book's posts_for_sale_count" do
+  #  previous_count = @post.book.posts_for_sale_count
+  #  lambda { @post.purchase(users(:ryan_holt)) }.should change(@post.book, :posts_for_sale_count).from(previous_count).to(previous_count - 1)
+  #end
 end
 
 describe Post, ".sold?" do

@@ -1,5 +1,6 @@
 class BooksController < ApplicationController # :nodoc:
   skip_before_filter :require_login
+  skip_before_filter :verify_authenticity_token
   
   def search
     unless params[:query].blank?
@@ -15,7 +16,7 @@ class BooksController < ApplicationController # :nodoc:
         end
       end
       
-      if @books.all? { |book| book.posts.for_sale.empty? }
+      if @books.all? { |book| book.posts.all? { |post| post.sold? }}
         flash.now[:warning] = "No books matched your search terms."
       end
     end

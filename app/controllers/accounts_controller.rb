@@ -1,5 +1,6 @@
 class AccountsController < ApplicationController # :nodoc:
   skip_before_filter :require_login, :except => [ :show, :edit, :update ]
+  skip_before_filter :verify_authenticity_token, :except => [ :show, :edit, :update ]
   
   def activate
     @user = User.find_by_activation_code(params[:activation_code])

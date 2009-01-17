@@ -83,12 +83,17 @@ class Post < ActiveRecord::Base
     end
   end
   
+  def for_sale?
+    !self.sold?
+  end
+  
   ##
   # Marks a post as 'for sale', allowing it to be listed in searches.
   def list!
     self.sold_at = nil
     self.buyer   = nil
-    self.book.posts_for_sale_count += 1
+    # NOTE: Removed this line in favor of a different solution.
+    # self.book.increment(:posts_for_sale_count)
     self.save
   end
   
@@ -141,7 +146,8 @@ class Post < ActiveRecord::Base
     
     self.buyer   = buyer
     self.sold_at = Time.now
-    self.book.posts_for_sale_count -= 1
+    # NOTE: Removed this line in favor of a different solution.
+    # self.book.decrement(:posts_for_sale_count)
     self.save
   end
   

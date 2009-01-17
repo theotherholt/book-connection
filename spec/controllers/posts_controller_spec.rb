@@ -54,7 +54,7 @@ describe PostsController do
       controller.send(:current_user=, users(:ryan_holt))
       
       @post = mock_model(Post)
-      Post.should_receive(:find).with('1', :include => { :book => :authors }).and_return(@post)
+      Post.should_receive(:find).and_return(@post)
       
       get('edit', :id => '1')
     end

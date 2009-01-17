@@ -190,13 +190,13 @@ describe Book, ".isbn_with_formatting" do
   end
 end
 
-describe Book, ".lowest_price" do
-  fixtures :books
-  
-  it "should return the lowest price currently listed for the book, formatted as currency." do
-    books(:velvet_elvis).lowest_price.should eql('$10.99')
-  end
-end
+#describe Book, ".lowest_price" do
+#  fixtures :books
+#  
+#  it "should return the lowest price currently listed for the book, formatted as currency." do
+#    books(:velvet_elvis).lowest_price.should eql('$10.99')
+#  end
+#end
 
 describe Book, ".to_s" do
   it "should return the book's title" do

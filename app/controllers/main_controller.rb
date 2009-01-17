@@ -1,5 +1,6 @@
 class MainController < ApplicationController # :nodoc:
   skip_before_filter :require_login
+  skip_before_filter :verify_authenticity_token
   
   def contact
     if request.post?
