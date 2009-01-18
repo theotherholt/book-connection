@@ -16,7 +16,7 @@ class BooksController < ApplicationController # :nodoc:
         end
       end
       
-      if @books.all? { |book| book.posts.all? { |post| post.sold? }}
+      if @books.all? { |book| book.posts_for_sale_count.zero? }
         flash.now[:warning] = "No books matched your search terms."
       end
     end

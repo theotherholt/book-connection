@@ -1,4 +1,4 @@
-<% unless book.posts.all? { |post| post.sold? } %>
+<% unless book.posts_for_sale_count.zero? %>
   <div class="book-<%= cycle('odd', 'even') %>">
     <%= link_to(image_tag(book.photo.url, :width => '50'), book_path(book)) %>
     <div class="info">

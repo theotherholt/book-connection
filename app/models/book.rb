@@ -218,6 +218,10 @@ class Book < ActiveRecord::Base
     )
   end
   
+  def posts_for_sale_count
+    @posts_for_sale_count ||= self.posts.reject { |post| post.sold? }.size
+  end
+  
   ##
   # ==== Returns
   # String::
